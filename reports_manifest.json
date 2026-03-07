@@ -1,0 +1,72 @@
+[
+  {
+    "date": "2026-03-05",
+    "variant": "전체",
+    "file_name": "Report_20260305.html",
+    "url": "reports/2026/03/05/Report_20260305.html",
+    "updated_at": "2026-03-06T13:52:00"
+  },
+  {
+    "date": "2026-03-04",
+    "variant": "전체",
+    "file_name": "Report_20260304.html",
+    "url": "reports/2026/03/04/Report_20260304.html",
+    "updated_at": "2026-03-05T13:25:25"
+  },
+  {
+    "date": "2026-01-30",
+    "variant": "해외주요",
+    "file_name": "Report_20260130_해외주요.html",
+    "url": "reports/2026/01/30/Report_20260130_해외주요.html",
+    "updated_at": "2026-02-02T14:50:46"
+  },
+  {
+    "date": "2026-01-30",
+    "variant": "액티브기타",
+    "file_name": "Report_20260130_액티브기타.html",
+    "url": "reports/2026/01/30/Report_20260130_액티브기타.html",
+    "updated_at": "2026-02-02T14:51:20"
+  },
+  {
+    "date": "2026-01-30",
+    "variant": "국내주요",
+    "file_name": "Report_20260130_국내주요.html",
+    "url": "reports/2026/01/30/Report_20260130_국내주요.html",
+    "updated_at": "2026-02-02T13:31:33"
+  },
+  {
+    "date": "2026-01-26",
+    "variant": "해외주요",
+    "file_name": "Report_20260126_해외주요.html",
+    "url": "reports/2026/01/26/Report_20260126_해외주요.html",
+    "updated_at": "2026-01-27T13:56:33"
+  },
+  {
+    "date": "2026-01-26",
+    "variant": "액티브기타",
+    "file_name": "Report_20260126_액티브기타.html",
+    "url": "reports/2026/01/26/Report_20260126_액티브기타.html",
+    "updated_at": "2026-01-27T13:39:47"
+  },
+  {
+    "date": "2026-01-26",
+    "variant": "국내주요",
+    "file_name": "Report_20260126_국내주요.html",
+    "url": "reports/2026/01/26/Report_20260126_국내주요.html",
+    "updated_at": "2026-01-27T13:56:11"
+  },
+  {
+    "date": "2026-01-26",
+    "variant": "국내성장",
+    "file_name": "Report_20260126_국내성장.html",
+    "url": "reports/2026/01/26/Report_20260126_국내성장.html",
+    "updated_at": "2026-01-26T15:18:46"
+  },
+  {
+    "date": "2026-01-26",
+    "variant": "국내",
+    "file_name": "Report_20260126_국내.html",
+    "url": "reports/2026/01/26/Report_20260126_국내.html",
+    "updated_at": "2026-01-26T16:08:37"
+  }
+]
