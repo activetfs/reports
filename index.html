@@ -5,44 +5,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ETF Daily Report Archive</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 24px; background: #f4f6f8; color: #202124; }
-    .container { max-width: 1100px; margin: 0 auto; background: #fff; border: 1px solid #dcdfe3; border-radius: 12px; padding: 20px 24px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 24px; background: linear-gradient(180deg, #f2f5fb 0%, #eef2f8 100%); color: #1a2440; }
+    .container { max-width: 1160px; margin: 0 auto; background: #ffffff; border: 1px solid #d6deea; border-radius: 14px; padding: 22px 26px; box-shadow: 0 8px 28px rgba(36, 56, 99, 0.08); }
     h1 { margin-top: 0; }
-    .meta { color: #5f6368; font-size: 13px; margin-bottom: 14px; }
-    .latest { margin-bottom: 18px; }
-    .latest a { color: #0b57d0; font-weight: 600; text-decoration: none; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border-bottom: 1px solid #e6e9ef; padding: 10px 8px; text-align: left; }
-    th { background: #fafbfc; }
-    tr:hover { background: #f8fbff; }
-    a { color: #0b57d0; text-decoration: none; }
+    .meta { color: #465472; font-size: 13px; margin-bottom: 8px; }
+    .latest { margin: 8px 0 18px; font-size: 18px; font-weight: 700; }
+    .latest a { color: #1a55cf; text-decoration: none; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .search-input { min-width: 260px; flex: 1; border: 1px solid #b9c7de; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #1f2b47; }
+    .control-select { border: 1px solid #b9c7de; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #1f2b47; background: #fff; }
+    .result-count { margin-left: auto; font-size: 13px; color: #4e5f82; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; border: 1px solid #d7e0ee; border-radius: 10px; overflow: hidden; }
+    th, td { border-bottom: 1px solid #dfe6f2; padding: 11px 10px; text-align: left; }
+    th { background: linear-gradient(135deg, #2e4378 0%, #3f5fa7 100%); color: #f3f7ff; font-weight: 700; }
+    tbody tr:nth-child(even) { background: #f7fbff; }
+    tr:hover { background: #e9f3ff; }
+    .variant-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e8efff; color: #274a9b; font-size: 12px; font-weight: 700; }
+    .date-cell { font-weight: 600; color: #223153; }
+    a { color: #0f4fd0; text-decoration: none; font-weight: 600; }
     a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>ETF Daily Report Archive</h1>
-    <div class="meta">생성 시각: 2026-03-07 21:56:47 (로컬 서버 기준)</div>
+    <div class="meta">생성 시각: 2026-03-07 22:13:27 (로컬 서버 기준)</div>
     <div class="meta">총 11건이 표시됩니다.</div>
     <div class="latest">최신 리포트: <a href="reports/2026/03/05/Report_20260305_국내주요.html" >바로 열기</a></div>
-    <table>
+    
+    <div class="toolbar">
+      <input id="searchInput" class="search-input" type="text" placeholder="파일명/구분/날짜 검색..." />
+      <select id="variantFilter" class="control-select">
+        <option value="">전체</option>
+<option value="전체">전체</option>
+<option value="국내">국내</option>
+<option value="국내성장">국내성장</option>
+<option value="국내주요">국내주요</option>
+<option value="액티브기타">액티브기타</option>
+<option value="해외주요">해외주요</option>
+      </select>
+      <select id="sortSelect" class="control-select">
+        <option value="date_desc">기준일 최신순</option>
+        <option value="date_asc">기준일 오래된순</option>
+        <option value="variant_asc">구분 오름차순</option>
+        <option value="file_asc">파일명 오름차순</option>
+      </select>
+      <span id="resultCount" class="result-count">표시: 11건</span>
+    </div>
+
+    <table id="reportTable">
       <thead>
         <tr><th style="width: 160px;">기준일</th><th style="width: 200px;">구분</th><th>파일</th></tr>
       </thead>
-      <tbody>
-        <tr><td>2026-03-05</td><td>국내주요</td><td><a href="reports/2026/03/05/Report_20260305_국내주요.html">Report_20260305_국내주요.html</a></td></tr>
-<tr><td>2026-03-05</td><td>전체</td><td><a href="reports/2026/03/05/Report_20260305.html">Report_20260305.html</a></td></tr>
-<tr><td>2026-03-04</td><td>전체</td><td><a href="reports/2026/03/04/Report_20260304.html">Report_20260304.html</a></td></tr>
-<tr><td>2026-01-30</td><td>해외주요</td><td><a href="reports/2026/01/30/Report_20260130_해외주요.html">Report_20260130_해외주요.html</a></td></tr>
-<tr><td>2026-01-30</td><td>액티브기타</td><td><a href="reports/2026/01/30/Report_20260130_액티브기타.html">Report_20260130_액티브기타.html</a></td></tr>
-<tr><td>2026-01-30</td><td>국내주요</td><td><a href="reports/2026/01/30/Report_20260130_국내주요.html">Report_20260130_국내주요.html</a></td></tr>
-<tr><td>2026-01-26</td><td>해외주요</td><td><a href="reports/2026/01/26/Report_20260126_해외주요.html">Report_20260126_해외주요.html</a></td></tr>
-<tr><td>2026-01-26</td><td>액티브기타</td><td><a href="reports/2026/01/26/Report_20260126_액티브기타.html">Report_20260126_액티브기타.html</a></td></tr>
-<tr><td>2026-01-26</td><td>국내주요</td><td><a href="reports/2026/01/26/Report_20260126_국내주요.html">Report_20260126_국내주요.html</a></td></tr>
-<tr><td>2026-01-26</td><td>국내성장</td><td><a href="reports/2026/01/26/Report_20260126_국내성장.html">Report_20260126_국내성장.html</a></td></tr>
-<tr><td>2026-01-26</td><td>국내</td><td><a href="reports/2026/01/26/Report_20260126_국내.html">Report_20260126_국내.html</a></td></tr>
+      <tbody id="reportTableBody">
+        <tr data-row='1' data-date='2026-03-05' data-variant='국내주요' data-file='Report_20260305_국내주요.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>국내주요</span></td><td><a href="reports/2026/03/05/Report_20260305_국내주요.html" target="_blank" rel="noopener noreferrer">Report_20260305_국내주요.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-05' data-variant='전체' data-file='Report_20260305.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>전체</span></td><td><a href="reports/2026/03/05/Report_20260305.html" target="_blank" rel="noopener noreferrer">Report_20260305.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='전체' data-file='Report_20260304.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>전체</span></td><td><a href="reports/2026/03/04/Report_20260304.html" target="_blank" rel="noopener noreferrer">Report_20260304.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-30' data-variant='해외주요' data-file='Report_20260130_해외주요.html'><td class='date-cell'>2026-01-30</td><td><span class='variant-chip'>해외주요</span></td><td><a href="reports/2026/01/30/Report_20260130_해외주요.html" target="_blank" rel="noopener noreferrer">Report_20260130_해외주요.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-30' data-variant='액티브기타' data-file='Report_20260130_액티브기타.html'><td class='date-cell'>2026-01-30</td><td><span class='variant-chip'>액티브기타</span></td><td><a href="reports/2026/01/30/Report_20260130_액티브기타.html" target="_blank" rel="noopener noreferrer">Report_20260130_액티브기타.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-30' data-variant='국내주요' data-file='Report_20260130_국내주요.html'><td class='date-cell'>2026-01-30</td><td><span class='variant-chip'>국내주요</span></td><td><a href="reports/2026/01/30/Report_20260130_국내주요.html" target="_blank" rel="noopener noreferrer">Report_20260130_국내주요.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-26' data-variant='해외주요' data-file='Report_20260126_해외주요.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>해외주요</span></td><td><a href="reports/2026/01/26/Report_20260126_해외주요.html" target="_blank" rel="noopener noreferrer">Report_20260126_해외주요.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-26' data-variant='액티브기타' data-file='Report_20260126_액티브기타.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>액티브기타</span></td><td><a href="reports/2026/01/26/Report_20260126_액티브기타.html" target="_blank" rel="noopener noreferrer">Report_20260126_액티브기타.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-26' data-variant='국내주요' data-file='Report_20260126_국내주요.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>국내주요</span></td><td><a href="reports/2026/01/26/Report_20260126_국내주요.html" target="_blank" rel="noopener noreferrer">Report_20260126_국내주요.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-26' data-variant='국내성장' data-file='Report_20260126_국내성장.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>국내성장</span></td><td><a href="reports/2026/01/26/Report_20260126_국내성장.html" target="_blank" rel="noopener noreferrer">Report_20260126_국내성장.html</a></td></tr>
+<tr data-row='1' data-date='2026-01-26' data-variant='국내' data-file='Report_20260126_국내.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>국내</span></td><td><a href="reports/2026/01/26/Report_20260126_국내.html" target="_blank" rel="noopener noreferrer">Report_20260126_국내.html</a></td></tr>
       </tbody>
     </table>
   </div>
+
+  <script>
+    (function () {
+      const searchInput = document.getElementById("searchInput");
+      const variantFilter = document.getElementById("variantFilter");
+      const sortSelect = document.getElementById("sortSelect");
+      const resultCount = document.getElementById("resultCount");
+      const tbody = document.getElementById("reportTableBody");
+      const allRows = Array.from(tbody.querySelectorAll("tr[data-row='1']"));
+
+      function parseDate(v) {
+        return new Date(v + "T00:00:00");
+      }
+
+      function applyFilters() {
+        const q = (searchInput.value || "").trim().toLowerCase();
+        const variant = variantFilter.value;
+        const sort = sortSelect.value;
+
+        let rows = allRows.filter((row) => {
+          const date = (row.dataset.date || "").toLowerCase();
+          const v = (row.dataset.variant || "").toLowerCase();
+          const file = (row.dataset.file || "").toLowerCase();
+          const textMatch = !q || date.includes(q) || v.includes(q) || file.includes(q);
+          const variantMatch = !variant || row.dataset.variant === variant;
+          return textMatch && variantMatch;
+        });
+
+        rows.sort((a, b) => {
+          const ad = a.dataset.date || "";
+          const bd = b.dataset.date || "";
+          const av = a.dataset.variant || "";
+          const bv = b.dataset.variant || "";
+          const af = a.dataset.file || "";
+          const bf = b.dataset.file || "";
+
+          if (sort === "date_asc") return parseDate(ad) - parseDate(bd);
+          if (sort === "variant_asc") {
+            const vcmp = av.localeCompare(bv, "ko");
+            return vcmp !== 0 ? vcmp : parseDate(bd) - parseDate(ad);
+          }
+          if (sort === "file_asc") return af.localeCompare(bf, "ko");
+          return parseDate(bd) - parseDate(ad);
+        });
+
+        tbody.innerHTML = "";
+        if (rows.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='3'>조건에 맞는 리포트가 없습니다.</td></tr>";
+        } else {
+          rows.forEach((row) => tbody.appendChild(row));
+        }
+        resultCount.textContent = `표시: ${rows.length}건`;
+      }
+
+      searchInput.addEventListener("input", applyFilters);
+      variantFilter.addEventListener("change", applyFilters);
+      sortSelect.addEventListener("change", applyFilters);
+      applyFilters();
+    })();
+  </script>
+
 </body>
 </html>
