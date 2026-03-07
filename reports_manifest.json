@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-03-05",
+    "variant": "국내주요",
+    "file_name": "Report_20260305_국내주요.html",
+    "url": "reports/2026/03/05/Report_20260305_국내주요.html",
+    "updated_at": "2026-03-07T21:25:42"
+  },
+  {
+    "date": "2026-03-05",
     "variant": "전체",
     "file_name": "Report_20260305.html",
     "url": "reports/2026/03/05/Report_20260305.html",
