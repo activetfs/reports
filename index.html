@@ -12,9 +12,14 @@
     .latest { margin: 8px 0 18px; font-size: 18px; font-weight: 700; color: #1f2a44; }
     .latest a { color: #1e88e5; text-decoration: none; }
     .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .toolbar-hint { margin: -6px 0 12px; color: #666; font-size: 12px; }
     .search-input { min-width: 240px; max-width: 520px; flex: 1 1 340px; border: 1px solid #d6d6d6; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #111111; background: #fff; }
     .control-select { border: 1px solid #d6d6d6; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #111111; background: #fff; }
+    .clear-btn { border: 1px solid #d6d6d6; border-radius: 9px; padding: 10px 12px; font-size: 13px; color: #2f2f2f; background: #fff; cursor: pointer; font-weight: 600; }
+    .clear-btn:hover { background: #f8f8f8; }
+    .clear-btn:disabled { cursor: default; color: #a9a9a9; background: #fbfbfb; border-color: #e3e3e3; }
     .search-input:focus, .control-select:focus { outline: none; border-color: #bdbdbd; box-shadow: 0 0 0 2px rgba(120, 120, 120, 0.12); }
+    .clear-btn:focus { outline: none; border-color: #bdbdbd; box-shadow: 0 0 0 2px rgba(120, 120, 120, 0.12); }
     .result-count { margin-left: auto; font-size: 13px; color: #666; font-weight: 600; }
     .table-wrap { width: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; border: 1px solid #e6e6e6; border-radius: 10px; background: #fff; }
     table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; background: #fff; }
@@ -38,7 +43,9 @@
       h1 { font-size: 26px; margin-bottom: 10px; }
       .latest { font-size: 16px; margin: 6px 0 12px; }
       .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
-      .search-input, .control-select { width: 100%; min-width: 0; box-sizing: border-box; }
+      .search-input, .control-select, .clear-btn { width: 100%; min-width: 0; box-sizing: border-box; }
+      .search-input, .control-select, .clear-btn { flex: 0 0 auto; max-width: none; }
+      .toolbar-hint { margin: -2px 0 10px; }
       .result-count { margin-left: 0; }
       table { font-size: 12px; }
       col.col-date { width: 92px; }
@@ -61,7 +68,7 @@
 <body>
   <div class="container">
     <h1>ETF Daily Report Archive</h1>
-    <div class="meta">생성 시각: 2026-03-08 21:32:56 (로컬 서버 기준)</div>
+    <div class="meta">생성 시각: 2026-03-08 21:37:50 (로컬 서버 기준)</div>
     <div class="meta">총 18건이 표시됩니다.</div>
     <div class="latest">최신 리포트: <a href="reports/2026/03/05/Report_20260305_KOACT.html" >바로 열기</a></div>
     
@@ -82,8 +89,10 @@
         <option value="variant_asc">구분 오름차순</option>
         <option value="file_asc">파일명 오름차순</option>
       </select>
+      <button id="clearFiltersBtn" type="button" class="clear-btn" title="검색어/구분 필터 해제">필터 해제</button>
       <span id="resultCount" class="result-count">표시: 18건</span>
     </div>
+    <div class="toolbar-hint">구분 뱃지를 클릭하면 해당 항목만 필터됩니다. 다시 클릭하거나 ‘필터 해제’로 원복할 수 있습니다.</div>
 
     <div class="table-wrap">
       <table id="reportTable">
@@ -124,6 +133,7 @@
       const searchInput = document.getElementById("searchInput");
       const variantFilter = document.getElementById("variantFilter");
       const sortSelect = document.getElementById("sortSelect");
+      const clearFiltersBtn = document.getElementById("clearFiltersBtn");
       const resultCount = document.getElementById("resultCount");
       const tbody = document.getElementById("reportTableBody");
       const allRows = Array.from(tbody.querySelectorAll("tr[data-row='1']"));
@@ -174,11 +184,18 @@
           rows.forEach((row) => tbody.appendChild(row));
         }
         resultCount.textContent = `표시: ${rows.length}건`;
+        const hasActiveFilter = Boolean((searchInput.value || "").trim()) || Boolean(variantFilter.value);
+        clearFiltersBtn.disabled = !hasActiveFilter;
       }
 
       searchInput.addEventListener("input", applyFilters);
       variantFilter.addEventListener("change", applyFilters);
       sortSelect.addEventListener("change", applyFilters);
+      clearFiltersBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        variantFilter.value = "";
+        applyFilters();
+      });
       tbody.addEventListener("click", (event) => {
         const chip = event.target.closest(".js-variant-filter");
         if (!chip) return;
