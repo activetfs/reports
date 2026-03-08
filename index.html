@@ -26,7 +26,9 @@
     tbody tr:nth-child(even) { background: #fcfcfc; }
     tbody tr:hover { background: #f9f9f9; }
     th:nth-child(2), td:nth-child(2) { white-space: nowrap; }
-    .variant-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e8eaf6; color: #3f51b5; font-size: 12px; font-weight: 700; }
+    .variant-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e8eaf6; color: #3f51b5; font-size: 12px; font-weight: 700; border: 1px solid transparent; cursor: pointer; }
+    .variant-chip:hover { background: #dfe4fb; }
+    .variant-chip:focus { outline: none; box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.18); }
     .date-cell { font-weight: 600; color: #333; }
     a { color: #1e88e5; text-decoration: none; font-weight: 600; }
     a:hover { color: #1565c0; text-decoration: underline; }
@@ -59,7 +61,7 @@
 <body>
   <div class="container">
     <h1>ETF Daily Report Archive</h1>
-    <div class="meta">생성 시각: 2026-03-08 21:30:50 (로컬 서버 기준)</div>
+    <div class="meta">생성 시각: 2026-03-08 21:32:56 (로컬 서버 기준)</div>
     <div class="meta">총 18건이 표시됩니다.</div>
     <div class="latest">최신 리포트: <a href="reports/2026/03/05/Report_20260305_KOACT.html" >바로 열기</a></div>
     
@@ -94,24 +96,24 @@
           <tr><th>기준일</th><th>구분</th><th>파일</th></tr>
         </thead>
         <tbody id="reportTableBody">
-          <tr data-row='1' data-date='2026-03-05' data-variant='KOACT' data-file='Report_20260305_KOACT.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>KOACT</span></td><td><a href="reports/2026/03/05/Report_20260305_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260305_KOACT.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-05' data-variant='TIMEFOLIO' data-file='Report_20260305_TIMEFOLIO.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>TIMEFOLIO</span></td><td><a href="reports/2026/03/05/Report_20260305_TIMEFOLIO.html" target="_blank" rel="noopener noreferrer">Report_20260305_TIMEFOLIO.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-05' data-variant='국내섹터' data-file='Report_20260305_국내섹터.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>국내섹터</span></td><td><a href="reports/2026/03/05/Report_20260305_국내섹터.html" target="_blank" rel="noopener noreferrer">Report_20260305_국내섹터.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-05' data-variant='국내지수' data-file='Report_20260305_국내지수.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>국내지수</span></td><td><a href="reports/2026/03/05/Report_20260305_국내지수.html" target="_blank" rel="noopener noreferrer">Report_20260305_국내지수.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-05' data-variant='해외섹터' data-file='Report_20260305_해외섹터.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>해외섹터</span></td><td><a href="reports/2026/03/05/Report_20260305_해외섹터.html" target="_blank" rel="noopener noreferrer">Report_20260305_해외섹터.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-05' data-variant='해외지수' data-file='Report_20260305_해외지수.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>해외지수</span></td><td><a href="reports/2026/03/05/Report_20260305_해외지수.html" target="_blank" rel="noopener noreferrer">Report_20260305_해외지수.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-04' data-variant='KOACT' data-file='Report_20260304_KOACT.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>KOACT</span></td><td><a href="reports/2026/03/04/Report_20260304_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260304_KOACT.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-04' data-variant='TIMEFOLIO' data-file='Report_20260304_TIMEFOLIO.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>TIMEFOLIO</span></td><td><a href="reports/2026/03/04/Report_20260304_TIMEFOLIO.html" target="_blank" rel="noopener noreferrer">Report_20260304_TIMEFOLIO.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-04' data-variant='국내섹터' data-file='Report_20260304_국내섹터.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>국내섹터</span></td><td><a href="reports/2026/03/04/Report_20260304_국내섹터.html" target="_blank" rel="noopener noreferrer">Report_20260304_국내섹터.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-04' data-variant='국내지수' data-file='Report_20260304_국내지수.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>국내지수</span></td><td><a href="reports/2026/03/04/Report_20260304_국내지수.html" target="_blank" rel="noopener noreferrer">Report_20260304_국내지수.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-04' data-variant='해외섹터' data-file='Report_20260304_해외섹터.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>해외섹터</span></td><td><a href="reports/2026/03/04/Report_20260304_해외섹터.html" target="_blank" rel="noopener noreferrer">Report_20260304_해외섹터.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-04' data-variant='해외지수' data-file='Report_20260304_해외지수.html'><td class='date-cell'>2026-03-04</td><td><span class='variant-chip'>해외지수</span></td><td><a href="reports/2026/03/04/Report_20260304_해외지수.html" target="_blank" rel="noopener noreferrer">Report_20260304_해외지수.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-03' data-variant='KOACT' data-file='Report_20260303_KOACT.html'><td class='date-cell'>2026-03-03</td><td><span class='variant-chip'>KOACT</span></td><td><a href="reports/2026/03/03/Report_20260303_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260303_KOACT.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-03' data-variant='TIMEFOLIO' data-file='Report_20260303_TIMEFOLIO.html'><td class='date-cell'>2026-03-03</td><td><span class='variant-chip'>TIMEFOLIO</span></td><td><a href="reports/2026/03/03/Report_20260303_TIMEFOLIO.html" target="_blank" rel="noopener noreferrer">Report_20260303_TIMEFOLIO.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-03' data-variant='국내섹터' data-file='Report_20260303_국내섹터.html'><td class='date-cell'>2026-03-03</td><td><span class='variant-chip'>국내섹터</span></td><td><a href="reports/2026/03/03/Report_20260303_국내섹터.html" target="_blank" rel="noopener noreferrer">Report_20260303_국내섹터.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-03' data-variant='국내지수' data-file='Report_20260303_국내지수.html'><td class='date-cell'>2026-03-03</td><td><span class='variant-chip'>국내지수</span></td><td><a href="reports/2026/03/03/Report_20260303_국내지수.html" target="_blank" rel="noopener noreferrer">Report_20260303_국내지수.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-03' data-variant='해외섹터' data-file='Report_20260303_해외섹터.html'><td class='date-cell'>2026-03-03</td><td><span class='variant-chip'>해외섹터</span></td><td><a href="reports/2026/03/03/Report_20260303_해외섹터.html" target="_blank" rel="noopener noreferrer">Report_20260303_해외섹터.html</a></td></tr>
-<tr data-row='1' data-date='2026-03-03' data-variant='해외지수' data-file='Report_20260303_해외지수.html'><td class='date-cell'>2026-03-03</td><td><span class='variant-chip'>해외지수</span></td><td><a href="reports/2026/03/03/Report_20260303_해외지수.html" target="_blank" rel="noopener noreferrer">Report_20260303_해외지수.html</a></td></tr>
+          <tr data-row='1' data-date='2026-03-05' data-variant='KOACT' data-file='Report_20260305_KOACT.html'><td class='date-cell'>2026-03-05</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='KOACT'>KOACT</button></td><td><a href="reports/2026/03/05/Report_20260305_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260305_KOACT.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-05' data-variant='TIMEFOLIO' data-file='Report_20260305_TIMEFOLIO.html'><td class='date-cell'>2026-03-05</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='TIMEFOLIO'>TIMEFOLIO</button></td><td><a href="reports/2026/03/05/Report_20260305_TIMEFOLIO.html" target="_blank" rel="noopener noreferrer">Report_20260305_TIMEFOLIO.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-05' data-variant='국내섹터' data-file='Report_20260305_국내섹터.html'><td class='date-cell'>2026-03-05</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='국내섹터'>국내섹터</button></td><td><a href="reports/2026/03/05/Report_20260305_국내섹터.html" target="_blank" rel="noopener noreferrer">Report_20260305_국내섹터.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-05' data-variant='국내지수' data-file='Report_20260305_국내지수.html'><td class='date-cell'>2026-03-05</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='국내지수'>국내지수</button></td><td><a href="reports/2026/03/05/Report_20260305_국내지수.html" target="_blank" rel="noopener noreferrer">Report_20260305_국내지수.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-05' data-variant='해외섹터' data-file='Report_20260305_해외섹터.html'><td class='date-cell'>2026-03-05</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='해외섹터'>해외섹터</button></td><td><a href="reports/2026/03/05/Report_20260305_해외섹터.html" target="_blank" rel="noopener noreferrer">Report_20260305_해외섹터.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-05' data-variant='해외지수' data-file='Report_20260305_해외지수.html'><td class='date-cell'>2026-03-05</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='해외지수'>해외지수</button></td><td><a href="reports/2026/03/05/Report_20260305_해외지수.html" target="_blank" rel="noopener noreferrer">Report_20260305_해외지수.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='KOACT' data-file='Report_20260304_KOACT.html'><td class='date-cell'>2026-03-04</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='KOACT'>KOACT</button></td><td><a href="reports/2026/03/04/Report_20260304_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260304_KOACT.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='TIMEFOLIO' data-file='Report_20260304_TIMEFOLIO.html'><td class='date-cell'>2026-03-04</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='TIMEFOLIO'>TIMEFOLIO</button></td><td><a href="reports/2026/03/04/Report_20260304_TIMEFOLIO.html" target="_blank" rel="noopener noreferrer">Report_20260304_TIMEFOLIO.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='국내섹터' data-file='Report_20260304_국내섹터.html'><td class='date-cell'>2026-03-04</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='국내섹터'>국내섹터</button></td><td><a href="reports/2026/03/04/Report_20260304_국내섹터.html" target="_blank" rel="noopener noreferrer">Report_20260304_국내섹터.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='국내지수' data-file='Report_20260304_국내지수.html'><td class='date-cell'>2026-03-04</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='국내지수'>국내지수</button></td><td><a href="reports/2026/03/04/Report_20260304_국내지수.html" target="_blank" rel="noopener noreferrer">Report_20260304_국내지수.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='해외섹터' data-file='Report_20260304_해외섹터.html'><td class='date-cell'>2026-03-04</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='해외섹터'>해외섹터</button></td><td><a href="reports/2026/03/04/Report_20260304_해외섹터.html" target="_blank" rel="noopener noreferrer">Report_20260304_해외섹터.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-04' data-variant='해외지수' data-file='Report_20260304_해외지수.html'><td class='date-cell'>2026-03-04</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='해외지수'>해외지수</button></td><td><a href="reports/2026/03/04/Report_20260304_해외지수.html" target="_blank" rel="noopener noreferrer">Report_20260304_해외지수.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-03' data-variant='KOACT' data-file='Report_20260303_KOACT.html'><td class='date-cell'>2026-03-03</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='KOACT'>KOACT</button></td><td><a href="reports/2026/03/03/Report_20260303_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260303_KOACT.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-03' data-variant='TIMEFOLIO' data-file='Report_20260303_TIMEFOLIO.html'><td class='date-cell'>2026-03-03</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='TIMEFOLIO'>TIMEFOLIO</button></td><td><a href="reports/2026/03/03/Report_20260303_TIMEFOLIO.html" target="_blank" rel="noopener noreferrer">Report_20260303_TIMEFOLIO.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-03' data-variant='국내섹터' data-file='Report_20260303_국내섹터.html'><td class='date-cell'>2026-03-03</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='국내섹터'>국내섹터</button></td><td><a href="reports/2026/03/03/Report_20260303_국내섹터.html" target="_blank" rel="noopener noreferrer">Report_20260303_국내섹터.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-03' data-variant='국내지수' data-file='Report_20260303_국내지수.html'><td class='date-cell'>2026-03-03</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='국내지수'>국내지수</button></td><td><a href="reports/2026/03/03/Report_20260303_국내지수.html" target="_blank" rel="noopener noreferrer">Report_20260303_국내지수.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-03' data-variant='해외섹터' data-file='Report_20260303_해외섹터.html'><td class='date-cell'>2026-03-03</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='해외섹터'>해외섹터</button></td><td><a href="reports/2026/03/03/Report_20260303_해외섹터.html" target="_blank" rel="noopener noreferrer">Report_20260303_해외섹터.html</a></td></tr>
+<tr data-row='1' data-date='2026-03-03' data-variant='해외지수' data-file='Report_20260303_해외지수.html'><td class='date-cell'>2026-03-03</td><td><button type='button' class='variant-chip js-variant-filter' data-variant='해외지수'>해외지수</button></td><td><a href="reports/2026/03/03/Report_20260303_해외지수.html" target="_blank" rel="noopener noreferrer">Report_20260303_해외지수.html</a></td></tr>
         </tbody>
       </table>
     </div>
@@ -177,6 +179,13 @@
       searchInput.addEventListener("input", applyFilters);
       variantFilter.addEventListener("change", applyFilters);
       sortSelect.addEventListener("change", applyFilters);
+      tbody.addEventListener("click", (event) => {
+        const chip = event.target.closest(".js-variant-filter");
+        if (!chip) return;
+        const selectedVariant = chip.dataset.variant || "";
+        variantFilter.value = (variantFilter.value === selectedVariant) ? "" : selectedVariant;
+        applyFilters();
+      });
       applyFilters();
     })();
   </script>
