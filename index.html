@@ -16,13 +16,16 @@
     .control-select { border: 1px solid #d6d6d6; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #111111; background: #fff; }
     .search-input:focus, .control-select:focus { outline: none; border-color: #bdbdbd; box-shadow: 0 0 0 2px rgba(120, 120, 120, 0.12); }
     .result-count { margin-left: auto; font-size: 13px; color: #666; font-weight: 600; }
-    .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #e6e6e6; border-radius: 10px; background: #fff; }
-    table { width: 100%; min-width: 760px; border-collapse: collapse; background: #fff; }
-    th, td { border-bottom: 1px solid #eee; padding: 11px 10px; text-align: left; }
+    .table-wrap { width: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; border: 1px solid #e6e6e6; border-radius: 10px; background: #fff; }
+    table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; background: #fff; }
+    col.col-date { width: 128px; }
+    col.col-variant { width: 120px; }
+    col.col-file { width: auto; }
+    th, td { border-bottom: 1px solid #eee; padding: 11px 10px; text-align: left; overflow-wrap: anywhere; word-break: break-word; }
     th { background: #f5f5f5; color: #666; font-weight: 700; border-top: 1px solid #ddd; border-bottom: 2px solid #ddd; }
     tbody tr:nth-child(even) { background: #fcfcfc; }
     tbody tr:hover { background: #f9f9f9; }
-    td:last-child, th:last-child { white-space: nowrap; }
+    th:nth-child(2), td:nth-child(2) { white-space: nowrap; }
     .variant-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e8eaf6; color: #3f51b5; font-size: 12px; font-weight: 700; }
     .date-cell { font-weight: 600; color: #333; }
     a { color: #1e88e5; text-decoration: none; font-weight: 600; }
@@ -35,19 +38,28 @@
       .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
       .search-input, .control-select { width: 100%; min-width: 0; box-sizing: border-box; }
       .result-count { margin-left: 0; }
+      table { font-size: 12px; }
+      col.col-date { width: 92px; }
+      col.col-variant { width: 84px; }
+      th, td { padding: 8px 6px; }
+      .variant-chip { padding: 2px 6px; font-size: 10px; }
     }
     @media (max-width: 480px) {
       body { margin: 0; }
       .container { border-radius: 0; border-left: 0; border-right: 0; }
       h1 { font-size: 22px; }
       .meta { font-size: 12px; }
+      table { font-size: 11px; }
+      col.col-date { width: 84px; }
+      col.col-variant { width: 78px; }
+      th, td { padding: 7px 5px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>ETF Daily Report Archive</h1>
-    <div class="meta">생성 시각: 2026-03-08 21:20:29 (로컬 서버 기준)</div>
+    <div class="meta">생성 시각: 2026-03-08 21:28:00 (로컬 서버 기준)</div>
     <div class="meta">총 18건이 표시됩니다.</div>
     <div class="latest">최신 리포트: <a href="reports/2026/03/05/Report_20260305_KOACT.html" >바로 열기</a></div>
     
@@ -73,8 +85,13 @@
 
     <div class="table-wrap">
       <table id="reportTable">
+        <colgroup>
+          <col class="col-date">
+          <col class="col-variant">
+          <col class="col-file">
+        </colgroup>
         <thead>
-          <tr><th style="width: 160px;">기준일</th><th style="width: 200px;">구분</th><th>파일</th></tr>
+          <tr><th>기준일</th><th>구분</th><th>파일</th></tr>
         </thead>
         <tbody id="reportTableBody">
           <tr data-row='1' data-date='2026-03-05' data-variant='KOACT' data-file='Report_20260305_KOACT.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>KOACT</span></td><td><a href="reports/2026/03/05/Report_20260305_KOACT.html" target="_blank" rel="noopener noreferrer">Report_20260305_KOACT.html</a></td></tr>
