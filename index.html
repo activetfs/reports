@@ -16,21 +16,38 @@
     .control-select { border: 1px solid #d6d6d6; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #111111; background: #fff; }
     .search-input:focus, .control-select:focus { outline: none; border-color: #bdbdbd; box-shadow: 0 0 0 2px rgba(120, 120, 120, 0.12); }
     .result-count { margin-left: auto; font-size: 13px; color: #666; font-weight: 600; }
-    table { width: 100%; border-collapse: collapse; border: 1px solid #e6e6e6; border-radius: 10px; overflow: hidden; background: #fff; }
+    .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #e6e6e6; border-radius: 10px; background: #fff; }
+    table { width: 100%; min-width: 760px; border-collapse: collapse; background: #fff; }
     th, td { border-bottom: 1px solid #eee; padding: 11px 10px; text-align: left; }
     th { background: #f5f5f5; color: #666; font-weight: 700; border-top: 1px solid #ddd; border-bottom: 2px solid #ddd; }
     tbody tr:nth-child(even) { background: #fcfcfc; }
     tbody tr:hover { background: #f9f9f9; }
+    td:last-child, th:last-child { white-space: nowrap; }
     .variant-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e8eaf6; color: #3f51b5; font-size: 12px; font-weight: 700; }
     .date-cell { font-weight: 600; color: #333; }
     a { color: #1e88e5; text-decoration: none; font-weight: 600; }
     a:hover { color: #1565c0; text-decoration: underline; }
+    @media (max-width: 900px) {
+      body { margin: 10px; }
+      .container { padding: 14px; border-radius: 10px; }
+      h1 { font-size: 26px; margin-bottom: 10px; }
+      .latest { font-size: 16px; margin: 6px 0 12px; }
+      .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+      .search-input, .control-select { width: 100%; min-width: 0; box-sizing: border-box; }
+      .result-count { margin-left: 0; }
+    }
+    @media (max-width: 480px) {
+      body { margin: 0; }
+      .container { border-radius: 0; border-left: 0; border-right: 0; }
+      h1 { font-size: 22px; }
+      .meta { font-size: 12px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>ETF Daily Report Archive</h1>
-    <div class="meta">생성 시각: 2026-03-07 22:42:35 (로컬 서버 기준)</div>
+    <div class="meta">생성 시각: 2026-03-08 10:16:42 (로컬 서버 기준)</div>
     <div class="meta">총 13건이 표시됩니다.</div>
     <div class="latest">최신 리포트: <a href="reports/2026/03/05/Report_20260305_해외주요.html" >바로 열기</a></div>
     
@@ -54,12 +71,13 @@
       <span id="resultCount" class="result-count">표시: 13건</span>
     </div>
 
-    <table id="reportTable">
-      <thead>
-        <tr><th style="width: 160px;">기준일</th><th style="width: 200px;">구분</th><th>파일</th></tr>
-      </thead>
-      <tbody id="reportTableBody">
-        <tr data-row='1' data-date='2026-03-05' data-variant='해외주요' data-file='Report_20260305_해외주요.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>해외주요</span></td><td><a href="reports/2026/03/05/Report_20260305_해외주요.html" target="_blank" rel="noopener noreferrer">Report_20260305_해외주요.html</a></td></tr>
+    <div class="table-wrap">
+      <table id="reportTable">
+        <thead>
+          <tr><th style="width: 160px;">기준일</th><th style="width: 200px;">구분</th><th>파일</th></tr>
+        </thead>
+        <tbody id="reportTableBody">
+          <tr data-row='1' data-date='2026-03-05' data-variant='해외주요' data-file='Report_20260305_해외주요.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>해외주요</span></td><td><a href="reports/2026/03/05/Report_20260305_해외주요.html" target="_blank" rel="noopener noreferrer">Report_20260305_해외주요.html</a></td></tr>
 <tr data-row='1' data-date='2026-03-05' data-variant='액티브기타' data-file='Report_20260305_액티브기타.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>액티브기타</span></td><td><a href="reports/2026/03/05/Report_20260305_액티브기타.html" target="_blank" rel="noopener noreferrer">Report_20260305_액티브기타.html</a></td></tr>
 <tr data-row='1' data-date='2026-03-05' data-variant='국내주요' data-file='Report_20260305_국내주요.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>국내주요</span></td><td><a href="reports/2026/03/05/Report_20260305_국내주요.html" target="_blank" rel="noopener noreferrer">Report_20260305_국내주요.html</a></td></tr>
 <tr data-row='1' data-date='2026-03-05' data-variant='전체' data-file='Report_20260305.html'><td class='date-cell'>2026-03-05</td><td><span class='variant-chip'>전체</span></td><td><a href="reports/2026/03/05/Report_20260305.html" target="_blank" rel="noopener noreferrer">Report_20260305.html</a></td></tr>
@@ -72,8 +90,9 @@
 <tr data-row='1' data-date='2026-01-26' data-variant='국내주요' data-file='Report_20260126_국내주요.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>국내주요</span></td><td><a href="reports/2026/01/26/Report_20260126_국내주요.html" target="_blank" rel="noopener noreferrer">Report_20260126_국내주요.html</a></td></tr>
 <tr data-row='1' data-date='2026-01-26' data-variant='국내성장' data-file='Report_20260126_국내성장.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>국내성장</span></td><td><a href="reports/2026/01/26/Report_20260126_국내성장.html" target="_blank" rel="noopener noreferrer">Report_20260126_국내성장.html</a></td></tr>
 <tr data-row='1' data-date='2026-01-26' data-variant='국내' data-file='Report_20260126_국내.html'><td class='date-cell'>2026-01-26</td><td><span class='variant-chip'>국내</span></td><td><a href="reports/2026/01/26/Report_20260126_국내.html" target="_blank" rel="noopener noreferrer">Report_20260126_국내.html</a></td></tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script>
