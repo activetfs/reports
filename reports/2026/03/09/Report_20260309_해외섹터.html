@@ -1,0 +1,3243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ETF Market Report - 2026-03-09</title>
+    <style>
+        /* [수정] 커스텀 가로 모드 (1200px) */
+@page {
+    size: 1200px 950px;
+    /* 가로 1200px, 세로는 A4 비율 유지 */
+    margin: 1cm;
+}
+
+/* [신규] 강제 페이지 넘김 클래스 */
+.new-page {
+    page-break-before: always;
+    /* WeasyPrint 호환성 */
+    break-before: page;
+    /* 최신 표준 */
+}
+
+/* [팁] 요소 중간에 페이지가 끊기지 않게 하기 (예: 카드 하나가 찢어지는 것 방지) */
+.avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr {
+    page-break-inside: avoid;
+}
+
+/* 행 중간에 잘리지 않게 */
+
+body {
+    font-family: "NanumGothic", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    /* 폰트 명시 */
+    color: #111111;
+    font-size: 10pt;
+    line-height: 1.6;
+    /* 줄 간격 넓힘 */
+}
+
+.header {
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-left {
+    flex: 1;
+    max-width: 75%;
+}
+
+.header-right {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28pt;
+    color: #1f2a44;
+    font-weight: 700;
+}
+
+.header .subtitle {
+    margin: 5px 0 0 0;
+    font-size: 14pt;
+    color: #666;
+}
+
+/* Date Block - Elegant Stacked Design */
+.date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.date-label {
+    font-size: 9pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.date-value {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+
+/* ETF List - Indented & No-Wrap */
+.etf-list-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.etf-list-icon {
+    flex-shrink: 0;
+    font-size: 11pt;
+}
+
+.etf-list-items {
+    font-size: 9pt;
+    color: #666;
+    line-height: 1.6;
+}
+
+.etf-chip {
+    white-space: nowrap;
+    display: inline;
+}
+
+.section {
+    margin-bottom: 40px;
+    /* 섹션 간격 넓힘 */
+}
+
+h2 {
+    font-size: 16pt;
+    color: #1f2a44;
+    border-left: 6px solid #ff4b4b;
+    padding-left: 12px;
+    margin-bottom: 20px;
+}
+
+h3.sub-title {
+    font-size: 12pt;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* ========== NEW: Executive Summary ========== */
+.executive-summary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.executive-summary h2 {
+    color: white;
+    border-left-color: white;
+    margin-bottom: 20px;
+}
+
+.pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.pulse-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pulse-label {
+    font-size: 9pt;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.pulse-value {
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+.alert-count,
+.conviction-count {
+    font-size: 24pt;
+}
+
+.sector-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 9pt;
+    margin: 2px;
+    font-weight: bold;
+}
+
+.sector-tag.hot {
+    background: rgba(255, 100, 100, 0.3);
+    border: 1px solid rgba(255, 100, 100, 0.5);
+}
+
+.sector-tag.cold {
+    background: rgba(100, 150, 255, 0.3);
+    border: 1px solid rgba(100, 150, 255, 0.5);
+}
+
+.no-data-inline {
+    opacity: 0.6;
+    font-style: italic;
+}
+
+/* ========== NEW: Sector Heatmap ========== */
+.heatmap-container {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.heatmap-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.heatmap-label {
+    width: 100px;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.heatmap-bar-container {
+    flex: 1;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.heatmap-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.heatmap-bar.positive {
+    background: linear-gradient(90deg, #ff6b6b, #ff4757);
+}
+
+.heatmap-bar.negative {
+    background: linear-gradient(90deg, #4b7bec, #3867d6);
+}
+
+.heatmap-value {
+    width: 50px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 11pt;
+}
+
+/* ========== NEW: Conviction Badges ========== */
+.conviction-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 10pt;
+    margin: 5px 0;
+}
+
+.conviction-badge.major {
+    background: #ff3d57;
+    color: white;
+}
+
+.conviction-badge.moderate {
+    background: #ff9800;
+    color: white;
+}
+
+.conviction-badge.minor {
+    background: #22c55e;
+    color: white;
+}
+
+.conviction-badge-small {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+.conviction-badge-small.major {
+    background: #ffe3e8;
+    color: #e53935;
+}
+
+.conviction-badge-small.moderate {
+    background: #ffedd6;
+    color: #fb8c00;
+}
+
+.conviction-badge-small.minor {
+    background: #def3e2;
+    color: #2f8f46;
+}
+
+.conviction-details {
+    margin-top: 8px;
+    font-size: 8pt;
+    color: #666;
+}
+
+.conviction-details span {
+    margin-right: 10px;
+}
+
+/* 카드 스타일 (Highlights) */
+.cards {
+    display: flex;
+    justify-content: flex-start;
+    /* 왼쪽 정렬하되 */
+    gap: 20px;
+    /* 카드 사이 간격 넓힘 */
+    page-break-inside: avoid;
+    /* 카드 내부에서 페이지 끊김 금지 */
+    break-inside: avoid;
+    flex-wrap: wrap;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    padding: 20px;
+    /* 카드 내부 여백 넓힘 */
+    border-radius: 10px;
+    width: 23%;
+    /* 4개 배치 */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    /* 살짝 그림자 */
+    box-sizing: border-box;
+}
+
+.conviction-card {
+    border-left: 4px solid #ff4757;
+}
+
+.card h3 {
+    margin: 0 0 8px 0;
+    font-size: 13pt;
+    color: #333;
+}
+
+.card .etf-source {
+    font-size: 8pt;
+    color: #888;
+    margin: 0 0 15px 0;
+}
+
+/* [수정됨] 고정 색상 제거 -> HTML 클래스(plus/minus)가 제어 */
+.card .val-change {
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 0;
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.chart-container img {
+    max-width: 95%;
+    /* 가로 모드라 공간 충분 */
+    height: auto;
+}
+
+/* ========== UNIFIED: Top Movers Table (Market Summary Style) ========== */
+.movers-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-top: 10px;
+    padding: 0 20px 0 30px;
+}
+
+.movers-table th {
+    background: #f5f5f5;
+    color: #666;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.movers-table td {
+    padding: 14px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid #eee;
+    color: #111111;
+}
+
+.movers-table tbody tr:nth-child(even) {
+    background: transparent;
+}
+
+.movers-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+/* 종목명 - 왼쪽 정렬 (텍스트는 왼쪽이 더 자연스러움) */
+.movers-table td:nth-child(1) {
+    text-align: left;
+    padding-left: 16px;
+}
+
+/* ETF 컬럼 - 고정 너비 */
+.movers-table td:nth-child(2) {
+    max-width: 240px;
+    min-width: 200px;
+}
+
+/* Weighted Conv - 좁게 */
+.movers-table td:nth-child(3) {
+    text-align: center;
+    width: 100px;
+    max-width: 100px;
+}
+
+/* 섹터 */
+.movers-table td:nth-child(4) {
+    text-align: center;
+}
+
+/* 평균 비중변화 - 가운데 정렬 */
+.movers-table td:nth-child(5) {
+    text-align: center;
+}
+
+/* 액션 */
+.movers-table td:nth-child(6) {
+    text-align: center;
+}
+
+.tags-cell {
+    font-size: 8pt;
+    color: #666;
+}
+
+/* 테이블 스타일 (여백 대폭 확보) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    /* 글자 크기 키움 */
+    margin-top: 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background: #f5f5f5;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 15px;
+    /* 헤더 여백 확보 */
+    text-align: left;
+    font-weight: bold;
+    color: #666;
+}
+
+td {
+    padding: 12px 15px;
+    /* 셀 내부 여백 확보 (답답함 해소 핵심) */
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #111111;
+}
+
+.small-text {
+    font-size: 9pt;
+    color: #666;
+}
+
+.table-footer {
+    text-align: center;
+    color: #888;
+    font-size: 9pt;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* 숫자 정렬 */
+.num {
+    text-align: right;
+    font-family: monospace;
+    /* 숫자 가독성 */
+    font-size: 11pt;
+}
+
+/* 텍스트 정렬 */
+.center {
+    text-align: center;
+}
+
+/* [신규] 색상 클래스 정의 */
+.plus {
+    color: #e53935;
+    font-weight: bold;
+}
+
+/* 빨강 */
+.minus {
+    color: #1e88e5;
+    font-weight: bold;
+}
+
+/* 파랑 */
+.gray {
+    color: #999;
+}
+
+/* 매매 구분 강조 */
+.buy-badge {
+    color: #e53935;
+    background-color: #ffe3e8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 8pt;
+}
+
+.sell-badge {
+    color: #1e88e5;
+    background-color: #d7ecff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 8pt;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9pt;
+    color: #aaa;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+
+.card h3 {
+    margin: 0 0 8px 0;
+    font-size: 13;
+    color: #333;
+}
+
+.card .etf-source {
+    font-size: 8pt;
+    color: #888;
+    margin: 0 0 15px 0;
+}
+
+/* [수정됨] 고정 색상 제거 -> HTML 클래스(plus/minus)가 제어 */
+.card .val-change {
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 0;
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.chart-container img {
+    max-width: 95%;
+    /* 가로 모드라 공간 충분 */
+    height: auto;
+}
+
+/* 테이블 스타일 (여백 대폭 확보) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    /* 글자 크기 키움 */
+    margin-top: 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background: #f5f5f5;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 15px;
+    /* 헤더 여백 확보 */
+    text-align: left;
+    font-weight: bold;
+    color: #666;
+}
+
+td {
+    padding: 12px 15px;
+    /* 셀 내부 여백 확보 (답답함 해소 핵심) */
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #111111;
+}
+
+/* 숫자 정렬 */
+.num {
+    text-align: right;
+    font-family: monospace;
+    /* 숫자 가독성 */
+    font-size: 11pt;
+}
+
+/* 텍스트 정렬 */
+.center {
+    text-align: center;
+}
+
+/* [신규] 색상 클래스 정의 */
+.plus {
+    color: #e53935;
+    font-weight: bold;
+}
+
+/* 빨강 */
+.minus {
+    color: #1e88e5;
+    font-weight: bold;
+}
+
+/* 파랑 */
+.gray {
+    color: #999;
+}
+
+/* 매매 구분 강조 */
+.buy-badge {
+    color: #e53935;
+    background-color: #ffe3e8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.sell-badge {
+    color: #1e88e5;
+    background-color: #d7ecff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9pt;
+    color: #aaa;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* ========== ENHANCED: Multi-Dimensional Heatmap ========== */
+.section-desc {
+    font-size: 9pt;
+    color: #666;
+    margin: -10px 0 15px 0;
+    font-style: italic;
+}
+
+.heatmap-container-v2 {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.heatmap-row-v2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+}
+
+.heatmap-row-v2 .heatmap-label {
+    width: 80px;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.heatmap-metric {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 20px;
+    /* 메트릭 간 간격 추가 */
+}
+
+.heatmap-metric:last-child {
+    margin-right: 0;
+    /* 마지막 메트릭은 오른쪽 마진 제거 */
+}
+
+.metric-label {
+    font-size: 8pt;
+    color: #888;
+    width: 50px;
+}
+
+.metric-value {
+    font-weight: bold;
+    font-size: 10pt;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* ========== Heatmap V3 (NEW - 카드 스타일) ========== */
+.heatmap-container-v3 {
+    margin-top: 15px;
+}
+
+.heatmap-row-v3 {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.heatmap-row-v3:last-child {
+    border-bottom: none;
+}
+
+.heatmap-row-v3 .heatmap-label {
+    font-weight: bold;
+    font-size: 11pt;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.heatmap-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.metric-card {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.metric-card:hover {
+    background: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-icon {
+    font-size: 16pt;
+    line-height: 1;
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-title {
+    font-size: 7pt;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.metric-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-value-large {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 카드별 배경색 */
+.count-card {
+    background: #f3f4f6;
+    border-left: 3px solid #6366f1;
+}
+
+.amount-card {
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+}
+
+.volume-card {
+    background: #dbeafe;
+    border-left: 3px solid #3b82f6;
+}
+
+.conviction-card {
+    background: #fce7f3;
+    border-left: 3px solid #ec4899;
+}
+
+
+/* ========== NEW: Consensus Section ========== */
+.consensus-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.consensus-card {
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.consensus-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 12pt;
+    color: #333;
+}
+
+.consensus-badge-large {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 10pt;
+    margin-bottom: 10px;
+}
+
+.consensus-details {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 9pt;
+}
+
+.detail-item {
+    color: #666;
+}
+
+.etf-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.etf-chip {
+    background: #e8eaf6;
+    color: #5c6bc0;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 8pt;
+    font-weight: 500;
+}
+
+.etf-chip.more {
+    background: #f5f5f5;
+    color: #999;
+}
+
+/* ========== NEW: Grouped Movers Styles ========== */
+.consensus-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+/* ETF 리스트 - 콤마 기준 줄바꿈 */
+.etf-list-wrapped {
+    font-size: 8pt;
+    color: #666;
+    margin-top: 4px;
+    line-height: 1.8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 0;
+}
+
+.etf-name-item {
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.etf-more {
+    color: #999;
+    font-style: italic;
+    margin-left: 4px;
+}
+
+/* 액션 컬럼 스타일 */
+.action-cell {
+    font-size: 9pt;
+    color: #555;
+    font-weight: 500;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.conviction-cell {
+    text-align: center;
+}
+
+/* Conviction Score 배지 */
+.conviction-score {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 8.5pt;
+    font-weight: bold;
+}
+
+.conviction-score.major {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.conviction-score.moderate {
+    background: #fffde7;
+    color: #f57f17;
+}
+
+.conviction-score.minor {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.avg-small {
+    display: block;
+    font-size: 8pt;
+    color: #999;
+    font-weight: normal;
+}
+
+/* ========== NEW: ETF Performance Badges ========== */
+.chart-header {
+    margin-bottom: 15px;
+}
+
+.performance-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: nowrap;
+    /* 한 줄 유지 */
+    white-space: nowrap;
+    /* PDF 호환성 */
+}
+
+.perf-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 9pt;
+    font-weight: bold;
+    white-space: nowrap;
+    /* 텍스트 줄바꿈 방지 */
+    flex-shrink: 0;
+    /* 크기 축소 방지 */
+}
+
+.perf-excellent {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.perf-good {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.perf-neutral {
+    background: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+.perf-poor {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.perf-bad {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ========== Heatmap Enhancements ========== */
+.count-detail {
+    font-size: 8pt;
+    color: #888;
+    margin-left: 4px;
+    font-weight: normal;
+}
+
+.cross-trade-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 11pt;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ========== Weight Change Detail Styles ========== */
+.weight-change-detail {
+    display: block;
+    margin-top: 4px;
+}
+
+.weight-from {
+    color: #666;
+    font-weight: normal;
+}
+
+.weight-to {
+    font-weight: bold;
+}
+
+.weight-to.plus {
+    color: #e53935;
+}
+
+.weight-to.minus {
+    color: #1e88e5;
+}
+
+.weight-delta {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.weight-delta.plus {
+    background: #ffe3e8;
+    color: #d32f2f;
+}
+
+.weight-delta.minus {
+    background: #d7ecff;
+    color: #1976d2;
+}
+
+/* 액션 배지 스타일 */
+.action-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 600;
+    margin: 2px 4px;
+}
+
+.action-buy {
+    background: #ffe3e8;
+    color: #d32f2f;
+}
+
+.action-new {
+    background: #ffedd6;
+    color: #f57c00;
+}
+
+.action-sell {
+    background: #d7ecff;
+    color: #1976d2;
+}
+
+.action-exit {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* ========== ETF Detail Report Section ========== */
+.etf-detail-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 3px solid #e0e0e0;
+}
+
+.etf-detail-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.etf-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.etf-detail-header h3 {
+    margin: 0;
+    font-size: 13pt;
+    color: #333;
+}
+
+.etf-detail-stats {
+    display: flex;
+    gap: 10px;
+}
+
+.stat-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+.stat-badge.increase {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.stat-badge.decrease {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.etf-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stock-changes-column {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.column-title {
+    margin: 0 0 10px 0;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.column-title.increase {
+    color: #c62828;
+}
+
+.column-title.decrease {
+    color: #1565c0;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.detail-table thead {
+    background: #f5f5f5;
+}
+
+.detail-table th {
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 2px solid #ddd;
+}
+
+.detail-table td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+.change-value {
+    font-weight: bold;
+}
+
+.change-value.plus {
+    color: #d32f2f;
+}
+
+.change-value.minus {
+    color: #1976d2;
+}
+
+.sector-tag-small {
+    display: inline-block;
+    padding: 2px 6px;
+    background: #e8eaf6;
+    color: #3f51b5;
+    border-radius: 3px;
+    font-size: 8pt;
+}
+
+
+.weight-change-cell {
+    white-space: nowrap;
+}
+
+.weight-change-cell .weight-from {
+    color: #888;
+}
+
+.weight-change-cell .weight-to {
+    font-weight: bold;
+    margin: 0 4px;
+}
+
+.weight-change-cell .weight-delta {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.etf-count-hint {
+    font-size: 7pt;
+    color: #999;
+    margin-left: 4px;
+    font-style: italic;
+}
+
+/* ========== ENHANCED: Sector Heatmap Table (Market Summary Style) ========== */
+.heatmap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-top: 15px;
+    background: white;
+}
+
+.heatmap-table thead {
+    display: table-header-group;
+}
+
+.heatmap-table th {
+    background: #f5f5f5;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 14px 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+    font-size: 10pt;
+}
+
+.heatmap-table th.sector-col {
+    width: 100px;
+    text-align: left;
+}
+
+.heatmap-table th.data-col {
+    width: auto;
+}
+
+.heatmap-table tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+.heatmap-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+.heatmap-table td {
+    padding: 16px 12px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.heatmap-table td.sector-name {
+    font-weight: bold;
+    font-size: 10pt;
+    text-align: left;
+    color: #111111;
+    padding-left: 15px;
+}
+
+/* Stock Change Cell - Enhanced */
+.stock-change-cell {
+    text-align: center;
+}
+
+.stock-change-main {
+    margin-bottom: 6px;
+}
+
+.stock-change-detail {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 9pt;
+}
+
+.detail-buy {
+    color: #e53935;
+    font-weight: 600;
+}
+
+.detail-buy::before {
+    content: "📈 ";
+    font-size: 8pt;
+}
+
+.detail-sell {
+    color: #1e88e5;
+    font-weight: 600;
+}
+
+.detail-sell::before {
+    content: "📉 ";
+    font-size: 8pt;
+}
+
+/* Net Count Badge Style (Simplified) */
+.count-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.count-badge.positive {
+    background: #ffe3e8;
+    color: #d32f2f;
+}
+
+.count-badge.negative {
+    background: #d7ecff;
+    color: #1976d2;
+}
+
+.count-badge.neutral {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* Amount Cell - Enhanced */
+.amount-cell {
+    text-align: center;
+}
+
+.amount-badge {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 10pt;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.amount-badge.positive {
+    background: linear-gradient(135deg, #ffeef1 0%, #ffd9e2 100%);
+    color: #d32f2f;
+}
+
+.amount-badge.negative {
+    background: linear-gradient(135deg, #e9f4ff 0%, #d7ecff 100%);
+    color: #1976d2;
+}
+
+.amount-sub {
+    font-size: 8pt;
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.amount-badge.positive+.amount-sub {
+    color: #e53935;
+}
+
+.amount-badge.negative+.amount-sub {
+    color: #1e88e5;
+}
+
+/* Volume Cell - Neutral Purple/Gray */
+.volume-cell {
+    text-align: center;
+}
+
+.volume-value {
+    font-weight: bold;
+    font-size: 10pt;
+    color: #f57c00;
+    background: linear-gradient(135deg, #ffedd6 0%, #ffd8a4 100%);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.cross-trade-indicator {
+    font-size: 8pt;
+    color: #ffa000;
+    margin-top: 4px;
+    font-weight: 600;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ========== NEW: Buy/Sell Amount Cell (Subtle Design) ========== */
+.buy-cell,
+.sell-cell {
+    text-align: center;
+    padding: 12px 8px !important;
+}
+
+.amount-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+.amount-tag.buy {
+    color: #e53935;
+    background-color: #ffe3e8;
+}
+
+.amount-tag.sell {
+    color: #1e88e5;
+    background-color: #d7ecff;
+}
+
+/* ========== NEW: Net Flow Cell (Subtle Design) ========== */
+.netflow-cell {
+    text-align: center;
+}
+
+.netflow-tag {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 9pt;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.netflow-tag.positive {
+    background: #def3e2;
+    color: #2f8f46;
+}
+
+.netflow-tag.negative {
+    background: #f9d9e7;
+    color: #d81b60;
+}
+
+.netflow-tag.neutral {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* Conviction Badge (Enhanced) */
+.conv-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+.conv-badge.major {
+    background: linear-gradient(135deg, #ffe3e8 0%, #ffbdcb 100%);
+    color: #d32f2f;
+    border: 1px solid #ef7f9f;
+}
+
+.conv-badge.moderate {
+    background: linear-gradient(135deg, #fff2cc 0%, #ffe199 100%);
+    color: #fb8c00;
+    border: 1px solid #ffb74d;
+}
+
+.conv-badge.minor {
+    background: linear-gradient(135deg, #def3e2 0%, #bfe9c7 100%);
+    color: #2f8f46;
+    border: 1px solid #8ed19f;
+}
+
+/* Legend - Enhanced */
+.heatmap-legend {
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+    margin-top: 15px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #eceff1 100%);
+    border-radius: 8px;
+    font-size: 9pt;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    flex-wrap: nowrap;
+    /* 한 줄 유지 */
+    white-space: nowrap;
+    /* 텍스트 줄바꿈 방지 */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-color.heat-positive-sample {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border: 1px solid #ef9a9a;
+}
+
+.legend-color.heat-negative-sample {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 1px solid #90caf9;
+}
+
+.legend-color.heat-volume-sample {
+    background: linear-gradient(135deg, #ede7f6 0%, #e8eaf6 100%);
+    border: 1px solid #b39ddb;
+}
+
+/* ========== Table Palette Alignment (Appendix Baseline) ========== */
+table,
+.movers-table,
+.detail-table,
+.heatmap-table {
+    background: #ffffff;
+    border-color: #e6e6e6;
+}
+
+table thead,
+.movers-table thead,
+.detail-table thead,
+.heatmap-table thead {
+    background: #f5f5f5;
+}
+
+table th,
+.movers-table th,
+.detail-table th,
+.heatmap-table th {
+    background: #f5f5f5;
+    color: #666;
+    border-top: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
+}
+
+table td,
+.movers-table td,
+.detail-table td,
+.heatmap-table td {
+    background: #ffffff;
+    color: #111111;
+    border-bottom: 1px solid #eee;
+}
+
+table tbody tr:nth-child(even),
+.movers-table tbody tr:nth-child(even),
+.detail-table tbody tr:nth-child(even),
+.heatmap-table tbody tr:nth-child(even) {
+    background: #fcfcfc;
+}
+
+table tbody tr:hover,
+.movers-table tbody tr:hover,
+.detail-table tbody tr:hover,
+.heatmap-table tbody tr:hover {
+    background: #f9f9f9 !important;
+}
+
+/* td에 배경이 지정된 경우에도 hover가 실제로 보이도록 셀 단위로 강제 적용 */
+table tbody tr:nth-child(even) > td,
+.movers-table tbody tr:nth-child(even) > td,
+.detail-table tbody tr:nth-child(even) > td,
+.heatmap-table tbody tr:nth-child(even) > td {
+    background: #fcfcfc;
+}
+
+table tbody tr:hover > td,
+.movers-table tbody tr:hover > td,
+.detail-table tbody tr:hover > td,
+.heatmap-table tbody tr:hover > td {
+    background: #f9f9f9 !important;
+}
+
+        body { background-color: #f0f2f6; padding: 20px; }
+        .page-container { 
+            background-color: white; 
+            width: 1200px; 
+            min-height: 849px; 
+            margin: 0 auto; 
+            padding: 15mm; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ETF Market Report</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <h1>ETF Market Report</h1>
+            <p class="subtitle">Group: 해외섹터</p>
+            
+            <div class="etf-list-wrapper">
+                <span class="etf-list-icon">📋</span>
+                <div class="etf-list-items">
+                    
+                    <span class="etf-chip">PLUS 글로벌휴머노이드로봇액티브</span>, 
+                    
+                    <span class="etf-chip">TIME 차이나AI테크액티브</span>, 
+                    
+                    <span class="etf-chip">KoAct 미국바이오헬스케어액티브</span>, 
+                    
+                    <span class="etf-chip">TIME 글로벌AI인공지능액티브</span>, 
+                    
+                    <span class="etf-chip">KoAct 글로벌친환경전력인프라액티브</span>, 
+                    
+                    <span class="etf-chip">TIME 글로벌우주테크&방산액티브</span>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="header-right">
+            <div class="date-block">
+                <span class="date-label">Period</span>
+                <span class="date-value">2026-03-06 ~ 2026-03-09</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Summary 섹션 삭제됨 -->
+
+    <!-- ========== NEW: Market Heatmap (KOSPI/KOSDAQ/해외) ========== -->
+    
+    <div class="section">
+        <h2>📊 Market Heatmap</h2>
+        <p class="section-desc">시장별 ETF 매매 활동 요약 — KOSPI, KOSDAQ, 해외 종목의 자금 흐름</p>
+        <table class="heatmap-table market-heatmap">
+            <thead>
+                <tr>
+                    <th class="sector-col">시장</th>
+                    <th class="data-col">종목 변동</th>
+                    <th class="data-col">매수금액</th>
+                    <th class="data-col">매도금액</th>
+                    <th class="data-col">순유입</th>
+                    <th class="data-col">Conviction</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr class="market-row kospi">
+                    <td class="sector-name market-name">
+                        🇰🇷 KOSPI
+                    </td>
+
+                    <!-- 종목 변동 -->
+                    <td class="stock-change-cell">
+                        <div class="stock-change-main">
+                            <span
+                                class="count-badge positive">
+                                ▲ +2 </span>
+                        </div>
+                        <div class="stock-change-detail">
+                            <span class="detail-buy">2종목</span>
+                            <span class="detail-sell">0종목</span>
+                        </div>
+                    </td>
+
+                    <!-- 매수 금액 -->
+                    <td class="buy-cell">
+                        <span class="amount-tag buy">▲ 20억</span>
+                    </td>
+
+                    <!-- 매도 금액 -->
+                    <td class="sell-cell">
+                        <span class="amount-tag sell">▼ 0억</span>
+                    </td>
+
+                    <!-- 순유입 -->
+                    <td class="netflow-cell">
+                        <span
+                            class="netflow-tag positive">
+                            +20억 </span>
+                    </td>
+
+                    <!-- Conviction -->
+                    <td class="conviction-cell">
+                        <span
+                            class="conv-badge moderate">
+                            Moderate (43)
+                        </span>
+                    </td>
+                </tr>
+                
+                <tr class="market-row kosdaq">
+                    <td class="sector-name market-name">
+                        🚀 KOSDAQ
+                    </td>
+
+                    <!-- 종목 변동 -->
+                    <td class="stock-change-cell">
+                        <div class="stock-change-main">
+                            <span
+                                class="count-badge positive">
+                                ▲ +2 </span>
+                        </div>
+                        <div class="stock-change-detail">
+                            <span class="detail-buy">2종목</span>
+                            <span class="detail-sell">0종목</span>
+                        </div>
+                    </td>
+
+                    <!-- 매수 금액 -->
+                    <td class="buy-cell">
+                        <span class="amount-tag buy">▲ 30억</span>
+                    </td>
+
+                    <!-- 매도 금액 -->
+                    <td class="sell-cell">
+                        <span class="amount-tag sell">▼ 0억</span>
+                    </td>
+
+                    <!-- 순유입 -->
+                    <td class="netflow-cell">
+                        <span
+                            class="netflow-tag positive">
+                            +30억 </span>
+                    </td>
+
+                    <!-- Conviction -->
+                    <td class="conviction-cell">
+                        <span
+                            class="conv-badge moderate">
+                            Moderate (24)
+                        </span>
+                    </td>
+                </tr>
+                
+                <tr class="market-row foreign">
+                    <td class="sector-name market-name">
+                        🌍 해외
+                    </td>
+
+                    <!-- 종목 변동 -->
+                    <td class="stock-change-cell">
+                        <div class="stock-change-main">
+                            <span
+                                class="count-badge neutral">
+                                ±0 </span>
+                        </div>
+                        <div class="stock-change-detail">
+                            <span class="detail-buy">3종목</span>
+                            <span class="detail-sell">3종목</span>
+                        </div>
+                    </td>
+
+                    <!-- 매수 금액 -->
+                    <td class="buy-cell">
+                        <span class="amount-tag buy">▲ 87억</span>
+                    </td>
+
+                    <!-- 매도 금액 -->
+                    <td class="sell-cell">
+                        <span class="amount-tag sell">▼ 133억</span>
+                    </td>
+
+                    <!-- 순유입 -->
+                    <td class="netflow-cell">
+                        <span
+                            class="netflow-tag negative">
+                            -46억 </span>
+                    </td>
+
+                    <!-- Conviction -->
+                    <td class="conviction-cell">
+                        <span
+                            class="conv-badge moderate">
+                            Moderate (29)
+                        </span>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+
+    <!-- ========== REDESIGNED: Sector Heatmap (Separate Buy/Sell Columns) ========== -->
+    
+    
+
+
+    <!-- ========== NEW: Consensus Stocks ========== -->
+    
+
+    <!-- ========== ENHANCED: Top Movers (Grouped) ========== -->
+    
+    <div class="section new-page">
+        <h2>🏆 Top 10 Movers (Grouped)</h2>
+        <p class="section-desc">동일 종목 통합, Conviction 합산</p>
+        <table class="movers-table">
+            <thead>
+                <tr>
+                    <th>종목명</th>
+                    <th>ETF</th>
+                    <th>Weighted Conv.</th>
+                    <th>섹터</th>
+                    <th>평균 비중변화</th>
+                    <th>액션</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="center-align"><strong>Tesla Inc</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">PLUS 글로벌휴머노이드로봇액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score major">
+                            Major (79)
+                        </span>
+                        <div class="avg-small">(평균 79, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">자동차</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">15.82%</span>
+                        →
+                        <span class="weight-to minus">
+                            10.46%
+                        </span>
+                        <span
+                            class="weight-delta minus">
+                            ▼
+                            5.36%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-sell">1 매도 ▼</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>PLUS 머니마켓액티브</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">PLUS 글로벌휴머노이드로봇액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score moderate">
+                            Moderate (43)
+                        </span>
+                        <div class="avg-small">(평균 43, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">금융</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">0.0%</span>
+                        →
+                        <span class="weight-to plus">
+                            1.04%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            1.04%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-new">1 신규 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>TIGER 머니마켓액티브</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">PLUS 글로벌휴머노이드로봇액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score moderate">
+                            Moderate (43)
+                        </span>
+                        <div class="avg-small">(평균 43, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">금융</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">0.0%</span>
+                        →
+                        <span class="weight-to plus">
+                            1.01%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            1.01%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-new">1 신규 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>Vicor Corp</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">TIME 글로벌우주테크&방산액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score moderate">
+                            Moderate (40)
+                        </span>
+                        <div class="avg-small">(평균 40, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">IT</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">0.87%</span>
+                        →
+                        <span class="weight-to minus">
+                            0.0%
+                        </span>
+                        <span
+                            class="weight-delta minus">
+                            ▼
+                            0.87%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-exit">1 전량 ✕</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>레인보우로보틱스</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">PLUS 글로벌휴머노이드로봇액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score moderate">
+                            Moderate (28)
+                        </span>
+                        <div class="avg-small">(평균 28, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">기계·장비</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">13.81%</span>
+                        →
+                        <span class="weight-to plus">
+                            15.61%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            1.81%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-buy">1 매수 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>에스피지</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">PLUS 글로벌휴머노이드로봇액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score moderate">
+                            Moderate (20)
+                        </span>
+                        <div class="avg-small">(평균 20, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">반도체</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">3.58%</span>
+                        →
+                        <span class="weight-to plus">
+                            4.76%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            1.18%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-buy">1 매수 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>Teradyne Inc</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">TIME 글로벌우주테크&방산액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score minor">
+                            Minor (19)
+                        </span>
+                        <div class="avg-small">(평균 19, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">IT</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">2.05%</span>
+                        →
+                        <span class="weight-to minus">
+                            1.03%
+                        </span>
+                        <span
+                            class="weight-delta minus">
+                            ▼
+                            1.02%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-sell">1 매도 ▼</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>RTX Corp</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">TIME 글로벌우주테크&방산액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score minor">
+                            Minor (12)
+                        </span>
+                        <div class="avg-small">(평균 12, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">IT</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">7.47%</span>
+                        →
+                        <span class="weight-to plus">
+                            8.26%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            0.79%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-buy">1 매수 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>Lockheed Martin Corp</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">TIME 글로벌우주테크&방산액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score minor">
+                            Minor (12)
+                        </span>
+                        <div class="avg-small">(평균 12, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">IT</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">4.31%</span>
+                        →
+                        <span class="weight-to plus">
+                            5.05%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            0.74%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-buy">1 매수 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="center-align"><strong>Elbit Systems Ltd</strong></td>
+                    <td>
+                        <span class="consensus-badge">
+                            📊 1 ETF
+                        </span>
+                        <div class="etf-list-wrapped">
+                            
+                            <span class="etf-name-item">TIME 글로벌우주테크&방산액티브</span>
+                            
+                            
+                        </div>
+                    </td>
+                    <td class="conviction-cell">
+                        
+                        
+                        
+                        
+                        
+                        <span class="conviction-score minor">
+                            Minor (12)
+                        </span>
+                        <div class="avg-small">(평균 12, 1개 ETF)
+                        </div>
+                    </td>
+                    <td class="center small-text">해외</td>
+                    <td class="center-align weight-change-cell">
+                        <span class="weight-from">1.03%</span>
+                        →
+                        <span class="weight-to plus">
+                            1.58%
+                        </span>
+                        <span
+                            class="weight-delta plus">
+                            ▲
+                            0.55%p
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        
+                        
+                        
+                        <span class="action-badge action-buy">1 매수 ▲</span>
+                        
+                        
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+
+    <!-- ========== High Conviction Trades ========== -->
+    
+    <div class="section new-page">
+        <h2>💎 High Conviction Trades</h2>
+        <div class="cards">
+            
+            <div class="card conviction-card">
+                <h3>Tesla Inc</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <div class="conviction-badge major">
+                    Major (79)
+                </div>
+                <p
+                    class="val-change minus">
+                    15.82% → 10.46% ▼
+                </p>
+                <div class="conviction-details">
+                    <span>📊 Abs: 5.36%p</span>
+                    <span>📈 Rel: 33.9%</span>
+                </div>
+            </div>
+            
+            <div class="card conviction-card">
+                <h3>PLUS 머니마켓액티브</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <div class="conviction-badge moderate">
+                    Moderate (43)
+                </div>
+                <p
+                    class="val-change plus">
+                    0.00% → 1.04% ▲
+                </p>
+                <div class="conviction-details">
+                    <span>📊 Abs: 1.04%p</span>
+                    <span>📈 Rel: 1.0%</span>
+                </div>
+            </div>
+            
+            <div class="card conviction-card">
+                <h3>TIGER 머니마켓액티브</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <div class="conviction-badge moderate">
+                    Moderate (43)
+                </div>
+                <p
+                    class="val-change plus">
+                    0.00% → 1.01% ▲
+                </p>
+                <div class="conviction-details">
+                    <span>📊 Abs: 1.01%p</span>
+                    <span>📈 Rel: 1.0%</span>
+                </div>
+            </div>
+            
+            <div class="card conviction-card">
+                <h3>Vicor Corp</h3>
+                <p class="etf-source">by TIME 글로벌우주테크&방산액티브</p>
+                <div class="conviction-badge moderate">
+                    Moderate (40)
+                </div>
+                <p
+                    class="val-change minus">
+                    0.87% → 0.00% ▼
+                </p>
+                <div class="conviction-details">
+                    <span>📊 Abs: 0.87%p</span>
+                    <span>📈 Rel: 0.9%</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <!-- ========== MODIFIED: Highlights (Simplified) ========== -->
+    <div class="section">
+        <h2>🔥 Market Highlights</h2>
+
+        
+        <h3 class="sub-title">✨ Bold Moves (신규 편입)</h3>
+        <div class="cards">
+            
+            <div class="card">
+                <h3>PLUS 머니마켓액티브</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <div style="margin-bottom: 5px; display: flex; gap: 6px; flex-wrap: wrap;">
+                    <span class="buy-badge">✨ New Entry</span>
+                    
+                    <span class="conviction-badge-small moderate">
+                        Moderate (43)
+                    </span>
+                    
+                </div>
+                <p
+                    class="val-change plus">
+                    0.00% → 1.04% ▲
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3>TIGER 머니마켓액티브</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <div style="margin-bottom: 5px; display: flex; gap: 6px; flex-wrap: wrap;">
+                    <span class="buy-badge">✨ New Entry</span>
+                    
+                    <span class="conviction-badge-small moderate">
+                        Moderate (43)
+                    </span>
+                    
+                </div>
+                <p
+                    class="val-change plus">
+                    0.00% → 1.01% ▲
+                </p>
+            </div>
+            
+        </div>
+        
+
+        
+        <h3 class="sub-title" style="margin-top: 20px;">📉 Bold Moves (전량 매도)</h3>
+        <div class="cards">
+            
+            <div class="card">
+                <h3>Vicor Corp</h3>
+                <p class="etf-source">by TIME 글로벌우주테크&방산액티브</p>
+                <div style="margin-bottom: 5px; display: flex; gap: 6px; flex-wrap: wrap;">
+                    <span class="sell-badge">📉 Total Exit</span>
+                    
+                    <span class="conviction-badge-small moderate">
+                        Moderate (40)
+                    </span>
+                    
+                </div>
+                <p
+                    class="val-change minus">
+                    0.87% → 0.00% ▼
+                </p>
+            </div>
+            
+        </div>
+        
+
+        
+        <h3 class="sub-title" style="margin-top: 20px;">📈 Weight Gainers (기존 보유 증가)</h3>
+        <div class="cards">
+            
+            <div class="card">
+                <h3>레인보우로보틱스</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <p class="val-change plus">13.81% → 15.61% ▲</p>
+                <span class="conviction-badge-small moderate">
+                    Moderate (28)
+                </span>
+            </div>
+            
+            <div class="card">
+                <h3>에스피지</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <p class="val-change plus">3.58% → 4.76% ▲</p>
+                <span class="conviction-badge-small moderate">
+                    Moderate (20)
+                </span>
+            </div>
+            
+            <div class="card">
+                <h3>RTX Corp</h3>
+                <p class="etf-source">by TIME 글로벌우주테크&방산액티브</p>
+                <p class="val-change plus">7.47% → 8.26% ▲</p>
+                <span class="conviction-badge-small minor">
+                    Minor (12)
+                </span>
+            </div>
+            
+            <div class="card">
+                <h3>Lockheed Martin Corp</h3>
+                <p class="etf-source">by TIME 글로벌우주테크&방산액티브</p>
+                <p class="val-change plus">4.31% → 5.05% ▲</p>
+                <span class="conviction-badge-small minor">
+                    Minor (12)
+                </span>
+            </div>
+            
+        </div>
+        
+
+        
+        <h3 class="sub-title" style="margin-top: 20px;">📉 Weight Losers (기존 보유 감소)</h3>
+        <div class="cards">
+            
+            <div class="card">
+                <h3>Tesla Inc</h3>
+                <p class="etf-source">by PLUS 글로벌휴머노이드로봇액티브</p>
+                <p class="val-change minus">15.82% → 10.46% ▼</p>
+                <span class="conviction-badge-small major">
+                    Major (79)
+                </span>
+            </div>
+            
+            <div class="card">
+                <h3>Teradyne Inc</h3>
+                <p class="etf-source">by TIME 글로벌우주테크&방산액티브</p>
+                <p class="val-change minus">2.05% → 1.03% ▼</p>
+                <span class="conviction-badge-small minor">
+                    Minor (19)
+                </span>
+            </div>
+            
+        </div>
+        
+    </div>
+
+    
+    <div class="section new-page">
+        <h2>📈 Deep Dive: Top Active ETFs</h2>
+
+        
+        <div class="chart-container " style="margin-bottom: 30px;">
+            <div class="chart-header">
+                <h3 style="margin-bottom: 10px; color: #333;">1. PLUS 글로벌휴머노이드로봇액티브</h3>
+
+                <div class="chart-meta-row"
+                    style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                    <!-- 수익률 배지 (왼쪽) -->
+                    
+                    <div class="performance-badges">
+                        
+                        <span
+                            class="perf-badge perf-poor">
+                            1M: -0.43%
+                        </span>
+                        
+                        <span
+                            class="perf-badge perf-good">
+                            3M: +8.63%
+                        </span>
+                        
+                        <span
+                            class="perf-badge perf-excellent">
+                            6M: +56.33%
+                        </span>
+                        
+                    </div>
+                    
+
+                    <!-- AUM 배지 (오른쪽) -->
+                    
+                    <span class="perf-badge perf-neutral" style="background: #f5f5f5; border: 1px solid #999;">
+                        💰 AUM: 1,012억
+                    </span>
+                    
+                </div>
+            </div>
+
+            
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>                <div id="b616acd9-2728-41b3-9359-1ee31c59a036" class="plotly-graph-div" style="height:640px; width:1100px;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("b616acd9-2728-41b3-9359-1ee31c59a036")) {                    Plotly.newPlot(                        "b616acd9-2728-41b3-9359-1ee31c59a036",                        [{"customdata":["","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003e\ub808\uc778\ubcf4\uc6b0\ub85c\ubcf4\ud2f1\uc2a4\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#636EFA","width":2},"mode":"lines","name":"\ub808\uc778\ubcf4\uc6b0\ub85c\ubcf4\ud2f1\uc2a4","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[8.337,8.0048,7.9643,7.7435,7.683,7.4555,7.2862,7.3286,10.1149,9.2818,9.415,9.61,9.3742,9.2204,9.8885,11.9543,11.4837,11.9257,12.8022,12.4622,12.0417,12.7017,12.5289,12.0351,11.4695,11.7465,11.3199,11.1958,11.2863,11.2863,11.3043,11.7783,11.4807,11.4807,12.475,12.475,13.4616,13.2223,12.0785,13.994,13.8052,15.6126],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"\ub808\uc778\ubcf4\uc6b0\ub85c\ubcf4\ud2f1\uc2a4 \ub9e4\uc218","showlegend":false,"x":["2026-01-15T00:00:00","2026-03-05T00:00:00","2026-03-09T00:00:00"],"y":[10.1149,13.994,15.6126],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"\ub808\uc778\ubcf4\uc6b0\ub85c\ubcf4\ud2f1\uc2a4 \ub9e4\ub3c4","showlegend":false,"x":["2026-01-16T00:00:00","2026-01-26T00:00:00"],"y":[9.2818,11.9543],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eTesla Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#00CC96","width":2},"mode":"lines","name":"Tesla Inc","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[17.3377,17.8694,16.7333,16.9467,17.1638,17.4357,17.2447,17.1051,16.2604,17.6677,17.0747,17.2464,16.2225,16.8914,17.5828,16.75,16.4531,17.1502,16.7221,16.4681,17.479,16.7441,16.5516,16.4042,16.4772,16.7008,16.8246,16.8153,16.8741,16.8741,16.566,16.0202,15.9252,15.9252,15.0461,15.0461,14.8246,15.0779,16.0433,15.8762,15.8249,10.463],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Tesla Inc \ub9e4\uc218","showlegend":false,"x":["2026-01-06T00:00:00","2026-01-16T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-28T00:00:00","2026-02-02T00:00:00"],"y":[17.8694,17.6677,16.8914,17.5828,17.1502,17.479],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Tesla Inc \ub9e4\ub3c4","showlegend":false,"x":["2026-01-07T00:00:00","2026-01-15T00:00:00","2026-01-19T00:00:00","2026-01-21T00:00:00","2026-01-26T00:00:00","2026-02-03T00:00:00","2026-02-20T00:00:00","2026-02-25T00:00:00","2026-03-04T00:00:00","2026-03-09T00:00:00"],"y":[16.7333,16.2604,17.0747,16.2225,16.75,16.7441,16.0202,15.0461,16.0433,10.463],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003e\uc5d0\uc2a4\ud53c\uc9c0\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#AB63FA","width":2},"mode":"lines","name":"\uc5d0\uc2a4\ud53c\uc9c0","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.8712,2.6843,2.8046,2.7007,2.7979,2.8821,3.0597,2.9103,3.1075,2.858,3.3753,3.2119,3.3198,3.1959,3.1315,3.4742,3.545,4.2835,4.3882,4.3353,4.1229,4.3109,4.2276,4.1293,3.8945,3.8735,3.7055,3.7553,3.7687,3.7687,3.7032,3.6037,3.5009,3.5009,3.8281,3.8281,3.8095,3.4833,3.0531,3.4839,3.5801,4.7611],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"\uc5d0\uc2a4\ud53c\uc9c0 \ub9e4\uc218","showlegend":false,"x":["2026-03-09T00:00:00"],"y":[4.7611],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"\uc5d0\uc2a4\ud53c\uc9c0 \ub9e4\ub3c4","showlegend":false,"x":["2026-01-28T00:00:00"],"y":[4.2835],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003e\ud604\ub300\ucc28\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FFA15A","width":2},"mode":"lines","name":"\ud604\ub300\ucc28","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[3.0736,3.0921,3.4559,3.403,3.6456,3.5615,3.7583,3.7855,4.4386,4.1869,4.7159,4.7393,5.3913,5.2423,5.0381,4.6726,4.6546,4.5616,4.8008,4.62,4.3458,4.4391,4.4842,4.4451,4.3806,4.3936,4.3772,4.5655,4.5481,4.5481,4.5259,4.5265,4.6443,4.6443,4.8679,4.8679,5.0081,5.0348,4.6208,4.9455,4.9529,4.711],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"\ud604\ub300\ucc28 \ub9e4\uc218","showlegend":false,"x":["2026-01-15T00:00:00"],"y":[4.4386],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003e\ub85c\ubcf4\ud2f0\uc988\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#19D3F3","width":2},"mode":"lines","name":"\ub85c\ubcf4\ud2f0\uc988","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[6.1237,5.7774,5.7995,5.5897,5.5709,5.3311,5.3302,5.3398,5.561,5.1144,5.2067,5.069,4.9254,4.7664,4.8095,5.2128,5.4113,5.5672,5.848,6.1238,5.4711,5.6914,5.476,5.1464,5.0062,4.9916,4.9204,4.9412,5.0044,5.0044,4.8191,4.8642,4.7356,4.7356,4.7966,4.7966,4.7716,4.2724,3.7453,4.1299,4.369,4.216],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"\ub85c\ubcf4\ud2f0\uc988 \ub9e4\ub3c4","showlegend":false,"x":["2026-02-02T00:00:00"],"y":[5.4711],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003e\uc5d0\uc2a4\uc5d8\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF6692","width":2},"mode":"lines","name":"\uc5d0\uc2a4\uc5d8","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.8499,2.8945,2.7759,3.5519,3.4184,3.1043,2.9103,3.0108,2.9656,2.9467,2.8453,2.6788,2.7568,2.7801,2.7622,2.6879,2.7339,2.7653,2.7328,2.7285,2.7285,2.6522,3.0264,3.0617,3.0617,3.4224,3.4224,3.2429,3.2191,3.0772,3.3104,3.3949,3.1915],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"\uc5d0\uc2a4\uc5d8 \ub9e4\uc218","showlegend":false,"x":["2026-01-16T00:00:00"],"y":[2.8499],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"\uc5d0\uc2a4\uc5d8 \ub9e4\ub3c4","showlegend":false,"x":["2026-01-21T00:00:00"],"y":[3.5519],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eTeledyne Technologies Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#B6E880","width":2},"mode":"lines","name":"Teledyne ...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.7486,2.7642,2.761,2.8013,2.8974,2.8762,2.8199,2.8371,2.7904,2.7331,2.7047,2.7319,2.6272,2.9085,2.8904,2.7078,2.7444,2.6886,2.6361,2.7255,2.7642,2.6797,2.7659,2.8177,2.8967,2.9094,2.9204,2.8731,2.8661,2.8661,2.8351,2.8694,2.8624,2.8624,2.782,2.782,2.6585,2.8585,3.1265,2.9642,2.8375,2.949],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003e\ud604\ub300\ubaa8\ube44\uc2a4\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF97FF","width":2},"mode":"lines","name":"\ud604\ub300\ubaa8\ube44\uc2a4","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.6285,2.5721,2.709,2.7354,2.7855,3.265,3.599,3.5687,3.4376,3.3439,3.4399,3.415,3.6638,3.4394,3.4588,3.3692,3.333,3.1814,3.193,3.188,3.0263,3.0649,3.0464,3.0115,3.0475,3.0525,3.0392,3.0541,3.0605,3.0605,3.0121,3.0076,3.0203,3.0203,3.0504,3.0504,3.3211,3.0266,2.8095,2.9958,3.0557,2.9203],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eWoodward Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FECB52","width":2},"mode":"lines","name":"Woodward Inc","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.7927,2.8808,2.864,2.8825,2.8566,2.8592,2.8348,2.8595,2.7837,2.731,2.6237,2.6501,2.5801,2.6583,2.6235,2.4574,2.5352,2.4365,2.3475,2.3595,2.401,2.4241,2.7174,2.8315,2.9441,2.9589,2.9624,2.889,2.8613,2.8613,2.8284,2.853,2.8585,2.8585,2.7243,2.7243,2.618,2.8338,2.9786,2.8328,2.839,2.8855],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eSMC Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#636EFA","width":2},"mode":"lines","name":"SMC Corp","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.6708,2.8205,2.7777,2.8317,2.7701,2.7889,2.6788,2.8002,2.8347,2.7574,2.7664,2.7348,2.6906,2.6475,2.5658,2.569,2.5724,2.5453,2.4786,2.4094,2.4536,2.3844,2.5028,2.5969,2.6628,2.6327,2.7001,2.7618,2.7441,2.7441,2.9052,2.8733,2.861,2.861,2.8118,2.8118,2.7059,2.7973,2.9337,2.6374,2.6774,2.8443],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eMoog Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#00CC96","width":2},"mode":"lines","name":"Moog Inc","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.5964,2.614,2.619,2.6825,2.7219,2.8008,2.7797,2.7726,2.7702,2.7557,2.6504,2.6771,2.6019,2.723,2.6289,2.5338,2.5548,2.4606,2.385,2.4605,2.6672,2.7059,2.7431,2.8244,2.9438,2.8552,2.8351,2.7571,2.7322,2.7322,2.7783,2.8596,2.8953,2.8953,2.7904,2.7904,2.6624,2.81,3.0395,2.9019,2.715,2.8276],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eOmron Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#AB63FA","width":2},"mode":"lines","name":"Omron Corp","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.7225,2.7489,2.7196,2.7608,2.7273,2.6764,2.5706,2.558,2.5146,2.4445,2.3645,2.3328,2.3245,2.2932,2.3158,2.288,2.2763,2.226,2.1395,2.1767,2.2399,2.1747,2.2003,2.3184,2.4484,2.5844,2.7964,2.7478,2.7301,2.7301,2.7364,2.8221,2.8446,2.8446,2.7437,2.7437,2.7626,2.8596,2.9356,2.6327,2.6517,2.8091],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eNabtesco Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FFA15A","width":2},"mode":"lines","name":"Nabtesco ...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.7405,2.8022,2.845,2.9063,2.8213,2.7657,2.6563,2.728,2.7344,2.651,2.6211,2.6231,2.5781,2.5906,2.5835,2.5207,2.4709,2.4507,2.3246,2.3945,2.5428,2.4607,2.5552,2.6824,2.7876,2.7359,2.7602,2.8504,2.8321,2.8321,2.8493,2.7339,2.7614,2.7614,2.6853,2.6853,2.5845,2.8174,3.0367,2.6839,2.6667,2.7888],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eNIDEC CORP\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#19D3F3","width":2},"mode":"lines","name":"NIDEC CORP","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.9714,2.9174,2.8916,2.9069,2.8704,2.8054,2.6945,2.6902,2.6217,2.6056,2.5501,2.8373,2.791,2.7207,2.7602,2.7536,2.6837,2.5982,2.5057,2.4938,2.5573,2.5781,2.5924,2.6837,2.753,2.6808,2.7186,2.7302,2.7127,2.7127,2.7632,2.621,2.5659,2.5659,2.4708,2.4708,2.4205,2.4805,2.6384,2.6907,2.5613,2.6659],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eMurata Manufacturing Co Ltd\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF6692","width":2},"mode":"lines","name":"Murata Ma...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.729,2.8013,2.7545,2.8045,2.6659,2.605,2.5019,2.5772,2.6131,2.4984,2.4393,2.4688,2.3535,2.3589,2.3693,2.3265,2.2563,2.2387,2.1468,2.1535,2.193,2.1053,2.2241,2.2983,2.3424,2.2434,2.2717,2.29,2.2753,2.2753,2.2875,2.4676,2.4732,2.4732,2.5656,2.5656,2.579,2.6039,2.6199,2.4529,2.5361,2.6371],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eKeyence Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#B6E880","width":2},"mode":"lines","name":"Keyence Corp","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.8819,2.9089,2.8566,2.8483,2.8293,2.8442,2.7316,2.7507,2.6982,2.7068,2.6724,2.6688,2.6127,2.5724,2.5478,2.5109,2.5051,2.4688,2.3734,2.4403,2.3854,2.301,2.3055,2.2809,2.2991,2.2447,2.3233,2.3615,2.3463,2.3463,2.3899,2.4498,2.4985,2.4985,2.4433,2.4433,2.4784,2.4808,2.671,2.4711,2.4677,2.6015],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eHarmonic Drive Systems Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF97FF","width":2},"mode":"lines","name":"Harmonic ...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.7509,2.7962,2.7979,2.6048,2.6646,2.5062,2.4071,2.4851,2.5179,2.4743,2.4398,2.4681,2.3693,2.4038,2.3191,2.2151,2.1686,2.1611,2.0437,1.9978,2.0581,1.9671,2.0192,2.0661,2.1387,2.0856,2.1444,2.2695,2.2549,2.2549,2.3497,2.2228,2.5486,2.5486,2.5199,2.5199,2.4158,2.5977,2.7542,2.4617,2.5105,2.5704],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eFANUC Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FECB52","width":2},"mode":"lines","name":"FANUC Corp","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.8209,2.9245,2.9387,2.976,2.9044,2.9001,2.7854,2.8486,2.9009,2.7354,2.6179,2.6163,2.5683,2.5785,2.5787,2.5314,2.5026,2.4255,2.2663,2.3183,2.4176,2.2742,2.3776,2.5524,2.5803,2.527,2.5783,2.5874,2.5708,2.5708,2.5705,2.4124,2.383,2.383,2.2882,2.2882,2.2682,2.4604,2.558,2.294,2.2965,2.4157],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003ePLUS \uba38\ub2c8\ub9c8\ucf13\uc561\ud2f0\ube0c\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#636EFA","width":2},"mode":"lines","name":"PLUS \uba38\ub2c8\ub9c8\ucf13\uc561\ud2f0\ube0c","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0414],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"PLUS \uba38\ub2c8\ub9c8\ucf13\uc561\ud2f0\ube0c \ub9e4\uc218","showlegend":false,"x":["2026-03-09T00:00:00"],"y":[1.0414],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eTIGER \uba38\ub2c8\ub9c8\ucf13\uc561\ud2f0\ube0c\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#00CC96","width":2},"mode":"lines","name":"TIGER \uba38\ub2c8\ub9c8...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0061],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"TIGER \uba38\ub2c8\ub9c8\ucf13\uc561\ud2f0\ube0c \ub9e4\uc218","showlegend":false,"x":["2026-03-09T00:00:00"],"y":[1.0061],"type":"scatter","xaxis":"x","yaxis":"y"},{"hovertemplate":"AUM \uc720\uc785\u002f\uc720\ucd9c(\ucd94\uc815) : %{y:+,.1f}\uc5b5\uc6d0\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#26a69a","#ef5350","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#26a69a","#26a69a","#26a69a","#ef5350","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#26a69a","#26a69a","#ef5350","#ef5350","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#ef5350","#26a69a"]},"name":"AUM \uc720\uc785\u002f\uc720\ucd9c(\ucd94\uc815)","opacity":0.85,"x":["2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,33.7,5.5,0.2,-0.7,7.3,5.4,1.5,12.0,34.0,63.5,-1.1,15.4,-0.7,24.7,12.1,25.5,13.8,2.9,17.5,-6.4,15.0,0.7,1.9,-14.2,6.1,1.0,35.9,9.1,-14.9,0.5,1.9,-11.7,-3.1,4.7,10.1,48.3,7.4,-32.9,-15.9,33.8],"type":"bar","xaxis":"x2","yaxis":"y2"},{"hovertemplate":"ETF Price : %{y:,.0f}\uc6d0\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#EF553B","width":2},"mode":"lines","name":"ETF Price","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[18125.0,18045.0,18185.0,18040.0,18095.0,18385.0,18900.0,19130.0,19575.0,19450.0,19960.0,19715.0,19890.0,19815.0,19895.0,20405.0,20290.0,20545.0,20855.0,20680.0,20200.0,20900.0,20900.0,20420.0,19790.0,20470.0,20525.0,20825.0,20680.0,20310.0,20870.0,21005.0,20995.0,21090.0,21990.0,22665.0,22630.0,21520.0,19600.0,21095.0,21150.0,19705.0],"type":"scatter","xaxis":"x2","yaxis":"y3"}],                        {"template":{"data":{"candlestick":[{"decreasing":{"line":{"color":"#000033"}},"increasing":{"line":{"color":"#000032"}},"type":"candlestick"}],"contourcarpet":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contourcarpet"}],"contour":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contour"}],"heatmap":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"heatmap"}],"histogram2d":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"histogram2d"}],"icicle":[{"textfont":{"color":"white"},"type":"icicle"}],"sankey":[{"textfont":{"color":"#000036"},"type":"sankey"}],"scatter":[{"marker":{"line":{"width":0}},"type":"scatter"}],"table":[{"cells":{"fill":{"color":"#000038"},"font":{"color":"#000037"},"line":{"color":"#000039"}},"header":{"fill":{"color":"#000040"},"font":{"color":"#000036"},"line":{"color":"#000039"}},"type":"table"}],"waterfall":[{"connector":{"line":{"color":"#000036","width":2}},"decreasing":{"marker":{"color":"#000033"}},"increasing":{"marker":{"color":"#000032"}},"totals":{"marker":{"color":"#000034"}},"type":"waterfall"}]},"layout":{"coloraxis":{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorscale":{"diverging":[[0.0,"#000021"],[0.1,"#000022"],[0.2,"#000023"],[0.3,"#000024"],[0.4,"#000025"],[0.5,"#000026"],[0.6,"#000027"],[0.7,"#000028"],[0.8,"#000029"],[0.9,"#000030"],[1.0,"#000031"]],"sequential":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"sequentialminus":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorway":["#000001","#000002","#000003","#000004","#000005","#000006","#000007","#000008","#000009","#000010"]}},"xaxis":{"anchor":"y","domain":[0.0,0.94],"matches":"x2","showticklabels":true,"showspikes":true,"spikethickness":1,"spikedash":"dot","spikecolor":"#999999","spikemode":"across"},"yaxis":{"anchor":"x","domain":[0.44800000000000006,1.0],"title":{"text":"\ube44\uc911 (%)"},"showgrid":true,"gridcolor":"lightgray"},"xaxis2":{"anchor":"y2","domain":[0.0,0.94],"showspikes":true,"spikethickness":1,"spikedash":"dot","spikecolor":"#999999","spikemode":"across","title":{"text":""}},"yaxis2":{"anchor":"x2","domain":[0.0,0.36800000000000005],"title":{"text":"AUM \uc720\uc785\u002f\uc720\ucd9c(\ucd94\uc815, \uc5b5\uc6d0)"},"showgrid":true,"gridcolor":"lightgray","zeroline":true,"zerolinewidth":1,"zerolinecolor":"gray"},"yaxis3":{"anchor":"x2","overlaying":"y2","side":"right","title":{"text":"ETF \uac00\uaca9 (\uc6d0)"},"showgrid":false,"tickformat":",d"},"legend":{"font":{"size":9},"orientation":"v","yanchor":"top","y":0.98,"xanchor":"left","x":1.02,"bgcolor":"rgba(255,255,255,0.95)","bordercolor":"Black","borderwidth":1,"itemsizing":"constant","itemwidth":30,"itemclick":"toggle","itemdoubleclick":"toggleothers"},"margin":{"b":20,"t":30,"l":80,"r":150},"title":{},"height":640,"width":1100,"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"x unified"},                        {"responsive": true}                    )                };                            </script>        </div>
+            </div>
+            
+
+        </div>
+        
+        <div class="chart-container new-page" style="margin-bottom: 30px;">
+            <div class="chart-header">
+                <h3 style="margin-bottom: 10px; color: #333;">2. TIME 글로벌우주테크&방산액티브</h3>
+
+                <div class="chart-meta-row"
+                    style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                    <!-- 수익률 배지 (왼쪽) -->
+                    
+                    <div class="performance-badges">
+                        
+                        <span
+                            class="perf-badge perf-good">
+                            1M: +5.9%
+                        </span>
+                        
+                        <span
+                            class="perf-badge perf-excellent">
+                            3M: +17.19%
+                        </span>
+                        
+                        <span
+                            class="perf-badge perf-excellent">
+                            6M: +26.15%
+                        </span>
+                        
+                        <span
+                            class="perf-badge perf-excellent">
+                            1Y: +54.11%
+                        </span>
+                        
+                    </div>
+                    
+
+                    <!-- AUM 배지 (오른쪽) -->
+                    
+                    <span class="perf-badge perf-neutral" style="background: #f5f5f5; border: 1px solid #999;">
+                        💰 AUM: 4,212억
+                    </span>
+                    
+                </div>
+            </div>
+
+            
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>                <div id="568bc136-95e2-4da6-9c26-396ea6e8a541" class="plotly-graph-div" style="height:640px; width:1100px;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("568bc136-95e2-4da6-9c26-396ea6e8a541")) {                    Plotly.newPlot(                        "568bc136-95e2-4da6-9c26-396ea6e8a541",                        [{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eRTX Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#636EFA","width":2},"mode":"lines","name":"RTX Corp","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[8.14,7.83,8.0,7.74,7.64,7.44,7.53,7.13,7.01,6.96,6.84,6.78,6.52,6.72,6.55,6.81,6.88,7.13,7.1,7.24,7.37,7.3,7.18,7.43,7.6,7.38,7.17,7.14,8.25,8.42,8.2,8.03,8.08,7.95,7.31,6.95,6.97,7.35,7.42,7.43,7.47,8.26],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"RTX Corp \ub9e4\uc218","showlegend":false,"x":["2026-02-12T00:00:00","2026-03-09T00:00:00"],"y":[8.25,8.26],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"RTX Corp \ub9e4\ub3c4","showlegend":false,"x":["2026-02-25T00:00:00"],"y":[7.31],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","",""],"hovertemplate":"\u003cb\u003eRocket Lab Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#00CC96","width":2},"mode":"lines","name":"Rocket La...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[8.92,8.76,9.38,9.1,8.81,8.7,8.92,8.68,9.22,9.03,9.29,9.24,8.76,8.6,8.64,8.99,8.3,8.58,8.76,8.64,8.19,7.79,8.31,7.68,7.15,7.47,7.91,7.53,7.33,6.94,7.69,7.71,7.2,7.14,7.01,6.76,6.95,6.37,6.53,6.63,6.64,6.65],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Rocket Lab Corp \ub9e4\uc218","showlegend":false,"x":["2026-01-15T00:00:00","2026-02-19T00:00:00"],"y":[9.22,7.69],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Rocket Lab Corp \ub9e4\ub3c4","showlegend":false,"x":["2026-01-07T00:00:00","2026-02-05T00:00:00","2026-03-03T00:00:00"],"y":[9.38,7.68,6.37],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eHoneywell International Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#AB63FA","width":2},"mode":"lines","name":"Honeywell...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[4.93,4.83,5.16,5.0,5.05,4.92,4.7,4.47,4.63,4.81,4.76,4.87,5.02,5.1,5.56,5.51,5.61,5.37,5.27,5.65,6.04,5.97,5.89,6.45,6.57,6.44,6.34,6.77,6.81,6.69,6.45,6.3,6.43,6.4,6.62,6.7,6.63,6.69,6.82,6.83,6.52,6.43],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Honeywell International Inc \ub9e4\uc218","showlegend":false,"x":["2026-02-05T00:00:00"],"y":[6.45],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","",""],"hovertemplate":"\u003cb\u003eGeneral Electric Co\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FFA15A","width":2},"mode":"lines","name":"General E...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[7.2,6.95,6.83,6.7,6.36,6.28,6.01,6.03,5.64,5.35,5.28,5.0,4.73,4.83,4.36,4.33,4.43,4.27,4.22,4.38,4.59,4.96,4.84,4.96,5.64,5.69,5.5,5.52,5.48,5.49,5.52,5.47,6.66,6.55,6.59,6.67,6.57,6.59,6.6,6.62,6.24,6.2],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"General Electric Co \ub9e4\uc218","showlegend":false,"x":["2026-02-06T00:00:00","2026-02-23T00:00:00"],"y":[5.64,6.66],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eLockheed Martin Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#19D3F3","width":2},"mode":"lines","name":"Lockheed ...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.7,2.62,2.62,2.78,2.85,2.85,3.05,3.21,3.33,3.2,3.11,3.1,3.35,3.41,3.4,3.37,3.39,3.3,3.33,3.49,3.96,3.9,3.75,3.69,3.82,3.76,3.81,3.72,3.75,3.81,3.74,3.69,3.67,4.05,3.97,3.98,3.91,4.27,4.37,4.26,4.31,5.05],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Lockheed Martin Corp \ub9e4\uc218","showlegend":false,"x":["2026-03-09T00:00:00"],"y":[5.05],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eNorthrop Grumman Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF6692","width":2},"mode":"lines","name":"Northrop ...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[3.93,3.89,3.81,3.85,3.87,4.22,4.05,4.08,4.13,4.2,4.14,4.22,4.07,4.28,4.27,4.27,4.28,4.19,4.28,4.35,4.41,4.29,4.3,4.4,4.85,4.74,4.53,4.49,4.49,4.53,4.54,4.54,4.5,4.45,4.44,4.41,4.42,4.66,4.77,4.74,4.77,4.8],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eHuntington Ingalls Industries Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#B6E880","width":2},"mode":"lines","name":"Huntingto...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[4.2,4.17,4.08,3.93,4.41,4.36,4.51,4.79,4.94,5.11,5.02,5.12,4.93,5.24,5.4,5.31,5.35,5.27,5.28,5.46,5.42,5.38,5.35,5.27,3.83,3.97,3.95,3.93,3.85,4.0,4.29,4.35,4.33,4.37,4.38,4.35,4.38,4.43,4.46,4.39,4.35,4.39],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Huntington Ingalls Industries Inc \ub9e4\ub3c4","showlegend":false,"x":["2026-02-06T00:00:00"],"y":[3.83],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","",""],"hovertemplate":"\u003cb\u003eRolls-Royce Holdings PLC\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF97FF","width":2},"mode":"lines","name":"Rolls-Roy...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[5.04,5.02,4.9,4.98,4.84,4.78,4.51,4.32,4.07,3.84,3.74,3.5,3.5,3.43,3.35,3.41,3.45,3.32,3.25,2.94,2.99,3.02,2.98,3.0,3.02,2.94,3.01,2.97,2.98,2.95,3.0,2.9,2.99,4.44,4.36,4.46,4.62,4.35,4.33,4.51,4.41,4.35],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Rolls-Royce Holdings PLC \ub9e4\uc218","showlegend":false,"x":["2026-02-24T00:00:00"],"y":[4.44],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eHowmet Aerospace Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FECB52","width":2},"mode":"lines","name":"Howmet Ae...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[3.27,3.15,3.08,3.02,2.92,2.95,3.12,2.92,2.81,3.02,2.93,2.95,2.87,2.9,2.75,2.7,2.76,2.66,2.59,2.64,2.65,2.62,2.63,2.64,2.72,3.16,3.15,3.45,3.58,3.77,3.67,3.6,3.73,4.01,4.31,4.39,4.36,4.36,4.42,4.41,4.39,4.34],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eGeneral Dynamics Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#636EFA","width":2},"mode":"lines","name":"General D...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[3.68,3.64,3.57,3.39,3.39,3.29,3.2,3.02,2.91,2.78,2.69,2.73,3.04,3.37,3.31,3.27,3.34,3.23,3.16,3.17,3.2,3.12,3.11,3.2,3.65,3.59,3.55,3.53,3.44,3.35,3.31,3.25,3.25,3.26,3.21,3.21,3.25,3.34,3.46,3.45,3.49,3.49],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003ePlanet Labs PBC\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#00CC96","width":2},"mode":"lines","name":"Planet La...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[1.53,1.82,1.81,1.86,1.81,1.77,2.07,2.23,2.55,2.84,2.81,3.03,2.92,2.74,2.65,2.73,2.67,3.17,3.16,3.04,2.92,2.64,2.69,2.52,2.42,2.53,2.98,2.84,2.72,2.67,3.04,3.14,3.01,3.0,3.07,3.12,3.22,3.26,3.25,3.3,3.21,3.3],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Planet Labs PBC \ub9e4\uc218","showlegend":false,"x":["2026-01-28T00:00:00"],"y":[3.17],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eL3Harris Technologies Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#AB63FA","width":2},"mode":"lines","name":"L3Harris ...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[3.26,3.18,3.11,3.04,3.44,3.43,3.29,3.4,3.6,3.38,3.31,3.31,3.24,3.3,3.31,3.29,3.35,3.27,3.24,3.27,3.21,3.15,3.17,3.11,3.22,3.17,3.14,3.08,3.06,3.07,3.02,3.02,3.03,3.0,2.97,2.88,3.02,3.14,3.16,3.15,3.16,3.23],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003e\ud55c\ud654\uc5d0\uc5b4\ub85c\uc2a4\ud398\uc774\uc2a4\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FFA15A","width":2},"mode":"lines","name":"\ud55c\ud654\uc5d0\uc5b4\ub85c\uc2a4\ud398\uc774\uc2a4","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.2,2.05,1.99,2.15,2.34,2.16,2.46,2.53,2.45,2.77,3.02,2.85,2.82,2.77,2.62,2.67,2.64,2.97,3.0,3.11,2.97,3.05,3.01,2.89,2.85,2.79,2.55,2.56,2.6,2.54,2.54,2.7,2.72,2.64,2.59,2.57,2.63,3.02,2.87,2.96,3.23,3.11],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eBAE Systems PLC\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#19D3F3","width":2},"mode":"lines","name":"BAE Syste...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.79,3.12,3.07,3.44,3.54,3.47,3.64,3.41,3.17,3.02,3.27,3.11,3.08,3.03,2.88,2.95,2.94,2.89,2.9,2.91,2.92,2.81,2.76,2.73,2.76,2.69,2.71,2.7,2.72,2.71,2.83,2.83,2.87,2.82,2.8,2.82,2.8,2.86,2.92,2.95,2.92,3.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eMoog Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF6692","width":2},"mode":"lines","name":"Moog Inc","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.79,1.51,1.48,1.55,1.52,1.77,1.69,1.7,1.72,1.63,1.63,1.69,1.79,2.15,2.14,2.18,2.67,2.55,2.49,2.5,2.81,2.79,2.72,2.77,3.11,3.13,3.11,3.15,3.06,3.08,3.14,3.13,3.01,2.96],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Moog Inc \ub9e4\uc218","showlegend":false,"x":["2026-01-15T00:00:00","2026-01-16T00:00:00"],"y":[0.79,1.51],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","",""],"hovertemplate":"\u003cb\u003eMitsubishi Heavy Industries Ltd\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#B6E880","width":2},"mode":"lines","name":"Mitsubish...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[2.31,2.88,2.86,2.78,2.77,2.67,2.89,3.13,3.46,3.35,3.36,3.31,3.24,3.2,3.07,3.09,3.11,3.01,2.93,3.03,3.35,3.29,3.28,3.43,3.82,4.02,4.1,4.28,4.31,4.2,3.95,3.84,3.91,3.89,2.99,3.01,3.08,3.18,2.51,2.34,2.47,2.45],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Mitsubishi Heavy Industries Ltd \ub9e4\uc218","showlegend":false,"x":["2026-01-06T00:00:00"],"y":[2.88],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Mitsubishi Heavy Industries Ltd \ub9e4\ub3c4","showlegend":false,"x":["2026-02-25T00:00:00","2026-03-04T00:00:00"],"y":[2.99,2.51],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],"hovertemplate":"\u003cb\u003eKratos Defense & Security Solutions Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FF97FF","width":2},"mode":"lines","name":"Kratos De...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[1.87,2.31,2.3,2.67,2.98,3.15,3.38,3.25,3.44,3.35,3.41,3.6,3.8,3.54,3.28,3.17,3.25,3.3,3.17,2.79,2.69,2.49,2.6,2.36,2.26,2.4,2.77,2.62,2.49,2.45,2.62,2.79,2.56,2.51,2.37,2.35,2.44,2.37,2.41,2.39,2.36,2.39],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eElbit Systems Ltd\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#FECB52","width":2},"mode":"lines","name":"Elbit Sys...","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.63,0.64,0.91,1.08,1.08,1.08,1.1,1.1,1.1,1.11,1.11,1.1,1.09,1.1,0.99,1.01,0.96,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.03,1.58],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Elbit Systems Ltd \ub9e4\uc218","showlegend":false,"x":["2026-01-16T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.63,1.03,1.58],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Elbit Systems Ltd \ub9e4\ub3c4","showlegend":false,"x":["2026-02-10T00:00:00"],"y":[0.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eTeradyne Inc\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#636EFA","width":2},"mode":"lines","name":"Teradyne Inc","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.62,0.61,0.62,0.61,0.58,0.57,0.55,0.53,0.52,0.77,0.74,0.71,0.88,1.09,1.05,1.05,1.08,1.08,1.33,1.38,1.35,1.37,1.51,1.47,1.52,1.81,1.85,1.8,2.21,2.15,2.09,2.03,2.1,2.08,2.13,2.55,2.45,2.38,1.99,1.96,2.05,1.03],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Teradyne Inc \ub9e4\ub3c4","showlegend":false,"x":["2026-03-09T00:00:00"],"y":[1.03],"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","\u003cspan style='color:#d32f2f'\u003e\u25b2\u003c\u002fspan\u003e","","","","","","\u003cspan style='color:#1976d2'\u003e\u25bc\u003c\u002fspan\u003e"],"hovertemplate":"\u003cb\u003eVicor Corp\u003c\u002fb\u003e : %{y:.2f}% %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#00CC96","width":2},"mode":"lines","name":"Vicor Corp","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.91,0.94,0.93,0.93,0.95,0.87,0.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"red","size":6,"symbol":"triangle-up"},"mode":"markers","name":"Vicor Corp \ub9e4\uc218","showlegend":false,"x":["2026-02-26T00:00:00"],"y":[0.91],"type":"scatter","xaxis":"x","yaxis":"y"},{"hoverinfo":"skip","marker":{"color":"blue","size":6,"symbol":"triangle-down"},"mode":"markers","name":"Vicor Corp \ub9e4\ub3c4","showlegend":false,"x":["2026-03-09T00:00:00"],"y":[0.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"hovertemplate":"AUM \uc720\uc785\u002f\uc720\ucd9c(\ucd94\uc815) : %{y:+,.1f}\uc5b5\uc6d0\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#ef5350","#26a69a","#26a69a","#ef5350","#ef5350","#ef5350","#26a69a","#26a69a","#ef5350","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#26a69a","#ef5350","#ef5350","#ef5350","#ef5350","#26a69a"]},"name":"AUM \uc720\uc785\u002f\uc720\ucd9c(\ucd94\uc815)","opacity":0.85,"x":["2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[0.0,90.6,13.3,11.6,6.3,27.9,112.3,175.6,107.8,149.6,113.5,158.9,108.0,42.6,124.9,-34.4,1.7,66.2,27.2,21.1,-52.1,-33.7,80.6,103.8,-9.5,-7.4,-4.6,47.7,48.7,-18.7,2.0,61.5,5.2,18.6,54.9,51.6,-59.0,-47.2,-22.6,-71.4,70.0],"type":"bar","xaxis":"x2","yaxis":"y2"},{"hovertemplate":"ETF Price : %{y:,.0f}\uc6d0\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#EF553B","width":2},"mode":"lines","name":"ETF Price","x":["2026-01-05T00:00:00","2026-01-06T00:00:00","2026-01-07T00:00:00","2026-01-08T00:00:00","2026-01-09T00:00:00","2026-01-12T00:00:00","2026-01-13T00:00:00","2026-01-14T00:00:00","2026-01-15T00:00:00","2026-01-16T00:00:00","2026-01-19T00:00:00","2026-01-20T00:00:00","2026-01-21T00:00:00","2026-01-22T00:00:00","2026-01-23T00:00:00","2026-01-26T00:00:00","2026-01-27T00:00:00","2026-01-28T00:00:00","2026-01-29T00:00:00","2026-01-30T00:00:00","2026-02-02T00:00:00","2026-02-03T00:00:00","2026-02-04T00:00:00","2026-02-05T00:00:00","2026-02-06T00:00:00","2026-02-09T00:00:00","2026-02-10T00:00:00","2026-02-11T00:00:00","2026-02-12T00:00:00","2026-02-13T00:00:00","2026-02-19T00:00:00","2026-02-20T00:00:00","2026-02-23T00:00:00","2026-02-24T00:00:00","2026-02-25T00:00:00","2026-02-26T00:00:00","2026-02-27T00:00:00","2026-03-03T00:00:00","2026-03-04T00:00:00","2026-03-05T00:00:00","2026-03-06T00:00:00","2026-03-09T00:00:00"],"y":[20555.0,21145.0,21345.0,21365.0,21840.0,22590.0,23065.0,23285.0,23340.0,23510.0,23695.0,23670.0,23300.0,23300.0,23015.0,22565.0,22425.0,22705.0,22530.0,22540.0,22105.0,22290.0,23065.0,22160.0,21435.0,22335.0,22555.0,22305.0,21865.0,21645.0,22720.0,23120.0,22675.0,22620.0,22515.0,22115.0,22435.0,23500.0,22760.0,23295.0,22960.0,22700.0],"type":"scatter","xaxis":"x2","yaxis":"y3"}],                        {"template":{"data":{"candlestick":[{"decreasing":{"line":{"color":"#000033"}},"increasing":{"line":{"color":"#000032"}},"type":"candlestick"}],"contourcarpet":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contourcarpet"}],"contour":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contour"}],"heatmap":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"heatmap"}],"histogram2d":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"histogram2d"}],"icicle":[{"textfont":{"color":"white"},"type":"icicle"}],"sankey":[{"textfont":{"color":"#000036"},"type":"sankey"}],"scatter":[{"marker":{"line":{"width":0}},"type":"scatter"}],"table":[{"cells":{"fill":{"color":"#000038"},"font":{"color":"#000037"},"line":{"color":"#000039"}},"header":{"fill":{"color":"#000040"},"font":{"color":"#000036"},"line":{"color":"#000039"}},"type":"table"}],"waterfall":[{"connector":{"line":{"color":"#000036","width":2}},"decreasing":{"marker":{"color":"#000033"}},"increasing":{"marker":{"color":"#000032"}},"totals":{"marker":{"color":"#000034"}},"type":"waterfall"}]},"layout":{"coloraxis":{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorscale":{"diverging":[[0.0,"#000021"],[0.1,"#000022"],[0.2,"#000023"],[0.3,"#000024"],[0.4,"#000025"],[0.5,"#000026"],[0.6,"#000027"],[0.7,"#000028"],[0.8,"#000029"],[0.9,"#000030"],[1.0,"#000031"]],"sequential":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"sequentialminus":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorway":["#000001","#000002","#000003","#000004","#000005","#000006","#000007","#000008","#000009","#000010"]}},"xaxis":{"anchor":"y","domain":[0.0,0.94],"matches":"x2","showticklabels":true,"showspikes":true,"spikethickness":1,"spikedash":"dot","spikecolor":"#999999","spikemode":"across"},"yaxis":{"anchor":"x","domain":[0.44800000000000006,1.0],"title":{"text":"\ube44\uc911 (%)"},"showgrid":true,"gridcolor":"lightgray"},"xaxis2":{"anchor":"y2","domain":[0.0,0.94],"showspikes":true,"spikethickness":1,"spikedash":"dot","spikecolor":"#999999","spikemode":"across","title":{"text":""}},"yaxis2":{"anchor":"x2","domain":[0.0,0.36800000000000005],"title":{"text":"AUM \uc720\uc785\u002f\uc720\ucd9c(\ucd94\uc815, \uc5b5\uc6d0)"},"showgrid":true,"gridcolor":"lightgray","zeroline":true,"zerolinewidth":1,"zerolinecolor":"gray"},"yaxis3":{"anchor":"x2","overlaying":"y2","side":"right","title":{"text":"ETF \uac00\uaca9 (\uc6d0)"},"showgrid":false,"tickformat":",d"},"legend":{"font":{"size":9},"orientation":"v","yanchor":"top","y":0.98,"xanchor":"left","x":1.02,"bgcolor":"rgba(255,255,255,0.95)","bordercolor":"Black","borderwidth":1,"itemsizing":"constant","itemwidth":30,"itemclick":"toggle","itemdoubleclick":"toggleothers"},"margin":{"b":20,"t":30,"l":80,"r":150},"title":{},"height":640,"width":1100,"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"x unified"},                        {"responsive": true}                    )                };                            </script>        </div>
+            </div>
+            
+
+        </div>
+        
+    </div>
+    
+
+    <style>
+        {
+                {
+                css_content
+            }
+        }
+    </style>
+    <!-- ========== MODIFIED: Summary Table (Top 30 only) ========== -->
+    <div class="section new-page">
+        <h2>📋 Market Summary (Top 30)</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">ETF</th>
+                    <th style="width: 20%;">종목명</th>
+                    <th style="width: 10%; text-align: center;">Action</th>
+                    <th style="width: 15%;">Conviction</th>
+                    <th style="width: 10%; text-align: center;">Sector</th>
+                    <th style="width: 20%;">Weight Chg</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="small-text">PLUS 글로벌휴머노이드로봇액티브</td>
+                    <td><strong>Tesla Inc</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="sell-badge">▼ 매도</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small major">
+                            Major (79)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">자동차</td>
+
+                    <td
+                        class="minus">
+                        15.82% → 10.46% ▼
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">PLUS 글로벌휴머노이드로봇액티브</td>
+                    <td><strong>PLUS 머니마켓액티브</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">✨ 신규</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small moderate">
+                            Moderate (43)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">금융</td>
+
+                    <td
+                        class="plus">
+                        0.00% → 1.04% ▲
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">PLUS 글로벌휴머노이드로봇액티브</td>
+                    <td><strong>TIGER 머니마켓액티브</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">✨ 신규</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small moderate">
+                            Moderate (43)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">금융</td>
+
+                    <td
+                        class="plus">
+                        0.00% → 1.01% ▲
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">TIME 글로벌우주테크&방산액티브</td>
+                    <td><strong>Vicor Corp</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="sell-badge">📉 전량</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small moderate">
+                            Moderate (40)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">IT</td>
+
+                    <td
+                        class="minus">
+                        0.87% → 0.00% ▼
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">PLUS 글로벌휴머노이드로봇액티브</td>
+                    <td><strong>레인보우로보틱스</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">▲ 매수</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small moderate">
+                            Moderate (28)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">기계·장비</td>
+
+                    <td
+                        class="plus">
+                        13.81% → 15.61% ▲
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">PLUS 글로벌휴머노이드로봇액티브</td>
+                    <td><strong>에스피지</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">▲ 매수</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small moderate">
+                            Moderate (20)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">반도체</td>
+
+                    <td
+                        class="plus">
+                        3.58% → 4.76% ▲
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">TIME 글로벌우주테크&방산액티브</td>
+                    <td><strong>Teradyne Inc</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="sell-badge">▼ 매도</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small minor">
+                            Minor (19)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">IT</td>
+
+                    <td
+                        class="minus">
+                        2.05% → 1.03% ▼
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">TIME 글로벌우주테크&방산액티브</td>
+                    <td><strong>RTX Corp</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">▲ 매수</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small minor">
+                            Minor (12)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">IT</td>
+
+                    <td
+                        class="plus">
+                        7.47% → 8.26% ▲
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">TIME 글로벌우주테크&방산액티브</td>
+                    <td><strong>Lockheed Martin Corp</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">▲ 매수</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small minor">
+                            Minor (12)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">IT</td>
+
+                    <td
+                        class="plus">
+                        4.31% → 5.05% ▲
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="small-text">TIME 글로벌우주테크&방산액티브</td>
+                    <td><strong>Elbit Systems Ltd</strong></td>
+
+                    <td class="center">
+                        
+                        <span class="buy-badge">▲ 매수</span>
+                        
+                    </td>
+
+                    <td class="center">
+                        <span class="conviction-badge-small minor">
+                            Minor (12)
+                        </span>
+                    </td>
+
+                    <td class="center small-text">해외</td>
+
+                    <td
+                        class="plus">
+                        1.03% → 1.58% ▲
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        
+
+        
+    </div>
+
+
+
+    <!-- ========== ETF별 비중변화 상세 리포트 (별첨) ========== -->
+    
+    <div class="section etf-detail-section new-page">
+        <h2>📎 ETF별 비중변화 상세 (Appendix)</h2>
+        <p class="section-desc">모든 Conviction Alert 종목 상세 (전체 데이터)</p>
+
+        
+        <div class="etf-detail-card avoid-break">
+            <div class="etf-detail-header">
+                <h3>PLUS 글로벌휴머노이드로봇액티브</h3>
+                <div class="etf-detail-stats">
+                    <span class="stat-badge increase">▲ 4개 증가</span>
+                    <span class="stat-badge decrease">▼ 1개 감소</span>
+                </div>
+            </div>
+
+            <div class="etf-detail-grid">
+                <!-- INCREASED -->
+                
+                <div class="stock-changes-column">
+                    <h4 class="column-title increase">▲ INCREASED (4)</h4>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>종목명</th>
+                                <th>Before</th>
+                                <th>After</th>
+                                <th>Change</th>
+                                <th>Conviction</th>
+                                <th>섹터</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><strong>레인보우로보틱스</strong></td>
+                                <td>13.81%</td>
+                                <td>15.61%</td>
+                                <td class="change-value plus">+1.81%</td>
+                                <td>
+                                    <span class="conviction-badge-small moderate">
+                                        Moderate (28)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">기계·장비</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>에스피지</strong></td>
+                                <td>3.58%</td>
+                                <td>4.76%</td>
+                                <td class="change-value plus">+1.18%</td>
+                                <td>
+                                    <span class="conviction-badge-small moderate">
+                                        Moderate (20)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">반도체</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>PLUS 머니마켓액티브</strong></td>
+                                <td>0.0%</td>
+                                <td>1.04%</td>
+                                <td class="change-value plus">+1.04%</td>
+                                <td>
+                                    <span class="conviction-badge-small moderate">
+                                        Moderate (43)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">금융</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>TIGER 머니마켓액티브</strong></td>
+                                <td>0.0%</td>
+                                <td>1.01%</td>
+                                <td class="change-value plus">+1.01%</td>
+                                <td>
+                                    <span class="conviction-badge-small moderate">
+                                        Moderate (43)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">금융</span></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+
+                <!-- DECREASED -->
+                
+                <div class="stock-changes-column">
+                    <h4 class="column-title decrease">▼ DECREASED (1)</h4>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>종목명</th>
+                                <th>Before</th>
+                                <th>After</th>
+                                <th>Change</th>
+                                <th>Conviction</th>
+                                <th>섹터</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><strong>Tesla Inc</strong></td>
+                                <td>15.82%</td>
+                                <td>10.46%</td>
+                                <td class="change-value minus">-5.36%</td>
+                                <td>
+                                    <span class="conviction-badge-small major">
+                                        Major (79)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">자동차</span></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="etf-detail-card avoid-break">
+            <div class="etf-detail-header">
+                <h3>TIME 글로벌우주테크&방산액티브</h3>
+                <div class="etf-detail-stats">
+                    <span class="stat-badge increase">▲ 3개 증가</span>
+                    <span class="stat-badge decrease">▼ 2개 감소</span>
+                </div>
+            </div>
+
+            <div class="etf-detail-grid">
+                <!-- INCREASED -->
+                
+                <div class="stock-changes-column">
+                    <h4 class="column-title increase">▲ INCREASED (3)</h4>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>종목명</th>
+                                <th>Before</th>
+                                <th>After</th>
+                                <th>Change</th>
+                                <th>Conviction</th>
+                                <th>섹터</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><strong>RTX Corp</strong></td>
+                                <td>7.47%</td>
+                                <td>8.26%</td>
+                                <td class="change-value plus">+0.79%</td>
+                                <td>
+                                    <span class="conviction-badge-small minor">
+                                        Minor (12)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">IT</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>Lockheed Martin Corp</strong></td>
+                                <td>4.31%</td>
+                                <td>5.05%</td>
+                                <td class="change-value plus">+0.74%</td>
+                                <td>
+                                    <span class="conviction-badge-small minor">
+                                        Minor (12)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">IT</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>Elbit Systems Ltd</strong></td>
+                                <td>1.03%</td>
+                                <td>1.58%</td>
+                                <td class="change-value plus">+0.55%</td>
+                                <td>
+                                    <span class="conviction-badge-small minor">
+                                        Minor (12)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">해외</span></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+
+                <!-- DECREASED -->
+                
+                <div class="stock-changes-column">
+                    <h4 class="column-title decrease">▼ DECREASED (2)</h4>
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>종목명</th>
+                                <th>Before</th>
+                                <th>After</th>
+                                <th>Change</th>
+                                <th>Conviction</th>
+                                <th>섹터</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><strong>Teradyne Inc</strong></td>
+                                <td>2.05%</td>
+                                <td>1.03%</td>
+                                <td class="change-value minus">-1.02%</td>
+                                <td>
+                                    <span class="conviction-badge-small minor">
+                                        Minor (19)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">IT</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>Vicor Corp</strong></td>
+                                <td>0.87%</td>
+                                <td>0.0%</td>
+                                <td class="change-value minus">-0.87%</td>
+                                <td>
+                                    <span class="conviction-badge-small moderate">
+                                        Moderate (40)
+                                    </span>
+                                </td>
+                                <td><span class="sector-tag-small">IT</span></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+
+</body>
+
+</html>
+    </div>
+</body>
+</html>
