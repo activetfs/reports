@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ETF Market Report - 2026-03-16</title>
+    <style>
+        /* [수정] 커스텀 가로 모드 (1200px) */
+@page {
+    size: 1200px 950px;
+    /* 가로 1200px, 세로는 A4 비율 유지 */
+    margin: 1cm;
+}
+
+/* [신규] 강제 페이지 넘김 클래스 */
+.new-page {
+    page-break-before: always;
+    /* WeasyPrint 호환성 */
+    break-before: page;
+    /* 최신 표준 */
+}
+
+/* [팁] 요소 중간에 페이지가 끊기지 않게 하기 (예: 카드 하나가 찢어지는 것 방지) */
+.avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr {
+    page-break-inside: avoid;
+}
+
+/* 행 중간에 잘리지 않게 */
+
+body {
+    font-family: "NanumGothic", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    /* 폰트 명시 */
+    color: #111111;
+    font-size: 10pt;
+    line-height: 1.6;
+    /* 줄 간격 넓힘 */
+}
+
+.header {
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-left {
+    flex: 1;
+    max-width: 75%;
+}
+
+.header-right {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28pt;
+    color: #1f2a44;
+    font-weight: 700;
+}
+
+.header .subtitle {
+    margin: 5px 0 0 0;
+    font-size: 14pt;
+    color: #666;
+}
+
+/* Date Block - Elegant Stacked Design */
+.date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.date-label {
+    font-size: 9pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.date-value {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+
+/* ETF List - Indented & No-Wrap */
+.etf-list-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.etf-list-icon {
+    flex-shrink: 0;
+    font-size: 11pt;
+}
+
+.etf-list-items {
+    font-size: 9pt;
+    color: #666;
+    line-height: 1.6;
+}
+
+.etf-chip {
+    white-space: nowrap;
+    display: inline;
+}
+
+.section {
+    margin-bottom: 40px;
+    /* 섹션 간격 넓힘 */
+}
+
+h2 {
+    font-size: 16pt;
+    color: #1f2a44;
+    border-left: 6px solid #ff4b4b;
+    padding-left: 12px;
+    margin-bottom: 20px;
+}
+
+h3.sub-title {
+    font-size: 12pt;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* ========== NEW: Executive Summary ========== */
+.executive-summary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.executive-summary h2 {
+    color: white;
+    border-left-color: white;
+    margin-bottom: 20px;
+}
+
+.pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.pulse-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pulse-label {
+    font-size: 9pt;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.pulse-value {
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+.alert-count,
+.conviction-count {
+    font-size: 24pt;
+}
+
+.sector-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 9pt;
+    margin: 2px;
+    font-weight: bold;
+}
+
+.sector-tag.hot {
+    background: rgba(255, 100, 100, 0.3);
+    border: 1px solid rgba(255, 100, 100, 0.5);
+}
+
+.sector-tag.cold {
+    background: rgba(100, 150, 255, 0.3);
+    border: 1px solid rgba(100, 150, 255, 0.5);
+}
+
+.no-data-inline {
+    opacity: 0.6;
+    font-style: italic;
+}
+
+/* ========== NEW: Sector Heatmap ========== */
+.heatmap-container {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.heatmap-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.heatmap-label {
+    width: 100px;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.heatmap-bar-container {
+    flex: 1;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.heatmap-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.heatmap-bar.positive {
+    background: linear-gradient(90deg, #ff6b6b, #ff4757);
+}
+
+.heatmap-bar.negative {
+    background: linear-gradient(90deg, #4b7bec, #3867d6);
+}
+
+.heatmap-value {
+    width: 50px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 11pt;
+}
+
+/* ========== NEW: Conviction Badges ========== */
+.conviction-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 10pt;
+    margin: 5px 0;
+}
+
+.conviction-badge.major {
+    background: #ff3d57;
+    color: white;
+}
+
+.conviction-badge.moderate {
+    background: #ff9800;
+    color: white;
+}
+
+.conviction-badge.minor {
+    background: #22c55e;
+    color: white;
+}
+
+.conviction-badge-small {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+.conviction-badge-small.major {
+    background: #ffe3e8;
+    color: #e53935;
+}
+
+.conviction-badge-small.moderate {
+    background: #ffedd6;
+    color: #fb8c00;
+}
+
+.conviction-badge-small.minor {
+    background: #def3e2;
+    color: #2f8f46;
+}
+
+.conviction-details {
+    margin-top: 8px;
+    font-size: 8pt;
+    color: #666;
+}
+
+.conviction-details span {
+    margin-right: 10px;
+}
+
+/* 카드 스타일 (Highlights) */
+.cards {
+    display: flex;
+    justify-content: flex-start;
+    /* 왼쪽 정렬하되 */
+    gap: 20px;
+    /* 카드 사이 간격 넓힘 */
+    page-break-inside: avoid;
+    /* 카드 내부에서 페이지 끊김 금지 */
+    break-inside: avoid;
+    flex-wrap: wrap;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    padding: 20px;
+    /* 카드 내부 여백 넓힘 */
+    border-radius: 10px;
+    width: 23%;
+    /* 4개 배치 */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    /* 살짝 그림자 */
+    box-sizing: border-box;
+}
+
+.conviction-card {
+    border-left: 4px solid #ff4757;
+}
+
+.card h3 {
+    margin: 0 0 8px 0;
+    font-size: 13pt;
+    color: #333;
+}
+
+.card .etf-source {
+    font-size: 8pt;
+    color: #888;
+    margin: 0 0 15px 0;
+}
+
+/* [수정됨] 고정 색상 제거 -> HTML 클래스(plus/minus)가 제어 */
+.card .val-change {
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 0;
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.chart-container img {
+    max-width: 95%;
+    /* 가로 모드라 공간 충분 */
+    height: auto;
+}
+
+/* ========== UNIFIED: Top Movers Table (Market Summary Style) ========== */
+.movers-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-top: 10px;
+    padding: 0 20px 0 30px;
+}
+
+.movers-table th {
+    background: #f5f5f5;
+    color: #666;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.movers-table td {
+    padding: 14px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid #eee;
+    color: #111111;
+}
+
+.movers-table tbody tr:nth-child(even) {
+    background: transparent;
+}
+
+.movers-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+/* 종목명 - 왼쪽 정렬 (텍스트는 왼쪽이 더 자연스러움) */
+.movers-table td:nth-child(1) {
+    text-align: left;
+    padding-left: 16px;
+}
+
+/* ETF 컬럼 - 고정 너비 */
+.movers-table td:nth-child(2) {
+    max-width: 240px;
+    min-width: 200px;
+}
+
+/* Weighted Conv - 좁게 */
+.movers-table td:nth-child(3) {
+    text-align: center;
+    width: 100px;
+    max-width: 100px;
+}
+
+/* 섹터 */
+.movers-table td:nth-child(4) {
+    text-align: center;
+}
+
+/* 평균 비중변화 - 가운데 정렬 */
+.movers-table td:nth-child(5) {
+    text-align: center;
+}
+
+/* 액션 */
+.movers-table td:nth-child(6) {
+    text-align: center;
+}
+
+.tags-cell {
+    font-size: 8pt;
+    color: #666;
+}
+
+/* 테이블 스타일 (여백 대폭 확보) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    /* 글자 크기 키움 */
+    margin-top: 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background: #f5f5f5;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 15px;
+    /* 헤더 여백 확보 */
+    text-align: left;
+    font-weight: bold;
+    color: #666;
+}
+
+td {
+    padding: 12px 15px;
+    /* 셀 내부 여백 확보 (답답함 해소 핵심) */
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #111111;
+}
+
+.small-text {
+    font-size: 9pt;
+    color: #666;
+}
+
+.table-footer {
+    text-align: center;
+    color: #888;
+    font-size: 9pt;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* 숫자 정렬 */
+.num {
+    text-align: right;
+    font-family: monospace;
+    /* 숫자 가독성 */
+    font-size: 11pt;
+}
+
+/* 텍스트 정렬 */
+.center {
+    text-align: center;
+}
+
+/* [신규] 색상 클래스 정의 */
+.plus {
+    color: #e53935;
+    font-weight: bold;
+}
+
+/* 빨강 */
+.minus {
+    color: #1e88e5;
+    font-weight: bold;
+}
+
+/* 파랑 */
+.gray {
+    color: #999;
+}
+
+/* 매매 구분 강조 */
+.buy-badge {
+    color: #e53935;
+    background-color: #ffe3e8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 8pt;
+}
+
+.sell-badge {
+    color: #1e88e5;
+    background-color: #d7ecff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 8pt;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9pt;
+    color: #aaa;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+
+.card h3 {
+    margin: 0 0 8px 0;
+    font-size: 13;
+    color: #333;
+}
+
+.card .etf-source {
+    font-size: 8pt;
+    color: #888;
+    margin: 0 0 15px 0;
+}
+
+/* [수정됨] 고정 색상 제거 -> HTML 클래스(plus/minus)가 제어 */
+.card .val-change {
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 0;
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.chart-container img {
+    max-width: 95%;
+    /* 가로 모드라 공간 충분 */
+    height: auto;
+}
+
+/* 테이블 스타일 (여백 대폭 확보) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    /* 글자 크기 키움 */
+    margin-top: 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background: #f5f5f5;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 15px;
+    /* 헤더 여백 확보 */
+    text-align: left;
+    font-weight: bold;
+    color: #666;
+}
+
+td {
+    padding: 12px 15px;
+    /* 셀 내부 여백 확보 (답답함 해소 핵심) */
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #111111;
+}
+
+/* 숫자 정렬 */
+.num {
+    text-align: right;
+    font-family: monospace;
+    /* 숫자 가독성 */
+    font-size: 11pt;
+}
+
+/* 텍스트 정렬 */
+.center {
+    text-align: center;
+}
+
+/* [신규] 색상 클래스 정의 */
+.plus {
+    color: #e53935;
+    font-weight: bold;
+}
+
+/* 빨강 */
+.minus {
+    color: #1e88e5;
+    font-weight: bold;
+}
+
+/* 파랑 */
+.gray {
+    color: #999;
+}
+
+/* 매매 구분 강조 */
+.buy-badge {
+    color: #e53935;
+    background-color: #ffe3e8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.sell-badge {
+    color: #1e88e5;
+    background-color: #d7ecff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9pt;
+    color: #aaa;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* ========== ENHANCED: Multi-Dimensional Heatmap ========== */
+.section-desc {
+    font-size: 9pt;
+    color: #666;
+    margin: -10px 0 15px 0;
+    font-style: italic;
+}
+
+.heatmap-container-v2 {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.heatmap-row-v2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+}
+
+.heatmap-row-v2 .heatmap-label {
+    width: 80px;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.heatmap-metric {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 20px;
+    /* 메트릭 간 간격 추가 */
+}
+
+.heatmap-metric:last-child {
+    margin-right: 0;
+    /* 마지막 메트릭은 오른쪽 마진 제거 */
+}
+
+.metric-label {
+    font-size: 8pt;
+    color: #888;
+    width: 50px;
+}
+
+.metric-value {
+    font-weight: bold;
+    font-size: 10pt;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* ========== Heatmap V3 (NEW - 카드 스타일) ========== */
+.heatmap-container-v3 {
+    margin-top: 15px;
+}
+
+.heatmap-row-v3 {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.heatmap-row-v3:last-child {
+    border-bottom: none;
+}
+
+.heatmap-row-v3 .heatmap-label {
+    font-weight: bold;
+    font-size: 11pt;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.heatmap-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.metric-card {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.metric-card:hover {
+    background: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-icon {
+    font-size: 16pt;
+    line-height: 1;
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-title {
+    font-size: 7pt;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.metric-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-value-large {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 카드별 배경색 */
+.count-card {
+    background: #f3f4f6;
+    border-left: 3px solid #6366f1;
+}
+
+.amount-card {
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+}
+
+.volume-card {
+    background: #dbeafe;
+    border-left: 3px solid #3b82f6;
+}
+
+.conviction-card {
+    background: #fce7f3;
+    border-left: 3px solid #ec4899;
+}
+
+
+/* ========== NEW: Consensus Section ========== */
+.consensus-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.consensus-card {
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.consensus-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 12pt;
+    color: #333;
+}
+
+.consensus-badge-large {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 10pt;
+    margin-bottom: 10px;
+}
+
+.consensus-details {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 9pt;
+}
+
+.detail-item {
+    color: #666;
+}
+
+.etf-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.etf-chip {
+    background: #e8eaf6;
+    color: #5c6bc0;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 8pt;
+    font-weight: 500;
+}
+
+.etf-chip.more {
+    background: #f5f5f5;
+    color: #999;
+}
+
+/* ========== NEW: Grouped Movers Styles ========== */
+.consensus-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+/* ETF 리스트 - 콤마 기준 줄바꿈 */
+.etf-list-wrapped {
+    font-size: 8pt;
+    color: #666;
+    margin-top: 4px;
+    line-height: 1.8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 0;
+}
+
+.etf-name-item {
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.etf-more {
+    color: #999;
+    font-style: italic;
+    margin-left: 4px;
+}
+
+/* 액션 컬럼 스타일 */
+.action-cell {
+    font-size: 9pt;
+    color: #555;
+    font-weight: 500;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.conviction-cell {
+    text-align: center;
+}
+
+/* Conviction Score 배지 */
+.conviction-score {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 8.5pt;
+    font-weight: bold;
+}
+
+.conviction-score.major {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.conviction-score.moderate {
+    background: #fffde7;
+    color: #f57f17;
+}
+
+.conviction-score.minor {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.avg-small {
+    display: block;
+    font-size: 8pt;
+    color: #999;
+    font-weight: normal;
+}
+
+/* ========== NEW: ETF Performance Badges ========== */
+.chart-header {
+    margin-bottom: 15px;
+}
+
+.performance-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: nowrap;
+    /* 한 줄 유지 */
+    white-space: nowrap;
+    /* PDF 호환성 */
+}
+
+.perf-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 9pt;
+    font-weight: bold;
+    white-space: nowrap;
+    /* 텍스트 줄바꿈 방지 */
+    flex-shrink: 0;
+    /* 크기 축소 방지 */
+}
+
+.perf-excellent {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.perf-good {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.perf-neutral {
+    background: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+.perf-poor {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.perf-bad {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ========== Heatmap Enhancements ========== */
+.count-detail {
+    font-size: 8pt;
+    color: #888;
+    margin-left: 4px;
+    font-weight: normal;
+}
+
+.cross-trade-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 11pt;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ========== Weight Change Detail Styles ========== */
+.weight-change-detail {
+    display: block;
+    margin-top: 4px;
+}
+
+.weight-from {
+    color: #666;
+    font-weight: normal;
+}
+
+.weight-to {
+    font-weight: bold;
+}
+
+.weight-to.plus {
+    color: #e53935;
+}
+
+.weight-to.minus {
+    color: #1e88e5;
+}
+
+.weight-delta {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.weight-delta.plus {
+    background: #ffe3e8;
+    color: #d32f2f;
+}
+
+.weight-delta.minus {
+    background: #d7ecff;
+    color: #1976d2;
+}
+
+/* 액션 배지 스타일 */
+.action-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 600;
+    margin: 2px 4px;
+}
+
+.action-buy {
+    background: #ffe3e8;
+    color: #d32f2f;
+}
+
+.action-new {
+    background: #ffedd6;
+    color: #f57c00;
+}
+
+.action-sell {
+    background: #d7ecff;
+    color: #1976d2;
+}
+
+.action-exit {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* ========== ETF Detail Report Section ========== */
+.etf-detail-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 3px solid #e0e0e0;
+}
+
+.etf-detail-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.etf-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.etf-detail-header h3 {
+    margin: 0;
+    font-size: 13pt;
+    color: #333;
+}
+
+.etf-detail-stats {
+    display: flex;
+    gap: 10px;
+}
+
+.stat-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+.stat-badge.increase {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.stat-badge.decrease {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.etf-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stock-changes-column {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.column-title {
+    margin: 0 0 10px 0;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.column-title.increase {
+    color: #c62828;
+}
+
+.column-title.decrease {
+    color: #1565c0;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.detail-table thead {
+    background: #f5f5f5;
+}
+
+.detail-table th {
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 2px solid #ddd;
+}
+
+.detail-table td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+.change-value {
+    font-weight: bold;
+}
+
+.change-value.plus {
+    color: #d32f2f;
+}
+
+.change-value.minus {
+    color: #1976d2;
+}
+
+.sector-tag-small {
+    display: inline-block;
+    padding: 2px 6px;
+    background: #e8eaf6;
+    color: #3f51b5;
+    border-radius: 3px;
+    font-size: 8pt;
+}
+
+
+.weight-change-cell {
+    white-space: nowrap;
+}
+
+.weight-change-cell .weight-from {
+    color: #888;
+}
+
+.weight-change-cell .weight-to {
+    font-weight: bold;
+    margin: 0 4px;
+}
+
+.weight-change-cell .weight-delta {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.etf-count-hint {
+    font-size: 7pt;
+    color: #999;
+    margin-left: 4px;
+    font-style: italic;
+}
+
+/* ========== ENHANCED: Sector Heatmap Table (Market Summary Style) ========== */
+.heatmap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-top: 15px;
+    background: white;
+}
+
+.heatmap-table thead {
+    display: table-header-group;
+}
+
+.heatmap-table th {
+    background: #f5f5f5;
+    border-bottom: 2px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 14px 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+    font-size: 10pt;
+}
+
+.heatmap-table th.sector-col {
+    width: 100px;
+    text-align: left;
+}
+
+.heatmap-table th.data-col {
+    width: auto;
+}
+
+.heatmap-table tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+.heatmap-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+.heatmap-table td {
+    padding: 16px 12px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.heatmap-table td.sector-name {
+    font-weight: bold;
+    font-size: 10pt;
+    text-align: left;
+    color: #111111;
+    padding-left: 15px;
+}
+
+/* Stock Change Cell - Enhanced */
+.stock-change-cell {
+    text-align: center;
+}
+
+.stock-change-main {
+    margin-bottom: 6px;
+}
+
+.stock-change-detail {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 9pt;
+}
+
+.detail-buy {
+    color: #e53935;
+    font-weight: 600;
+}
+
+.detail-buy::before {
+    content: "📈 ";
+    font-size: 8pt;
+}
+
+.detail-sell {
+    color: #1e88e5;
+    font-weight: 600;
+}
+
+.detail-sell::before {
+    content: "📉 ";
+    font-size: 8pt;
+}
+
+/* Net Count Badge Style (Simplified) */
+.count-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.count-badge.positive {
+    background: #ffe3e8;
+    color: #d32f2f;
+}
+
+.count-badge.negative {
+    background: #d7ecff;
+    color: #1976d2;
+}
+
+.count-badge.neutral {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* Amount Cell - Enhanced */
+.amount-cell {
+    text-align: center;
+}
+
+.amount-badge {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 10pt;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.amount-badge.positive {
+    background: linear-gradient(135deg, #ffeef1 0%, #ffd9e2 100%);
+    color: #d32f2f;
+}
+
+.amount-badge.negative {
+    background: linear-gradient(135deg, #e9f4ff 0%, #d7ecff 100%);
+    color: #1976d2;
+}
+
+.amount-sub {
+    font-size: 8pt;
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.amount-badge.positive+.amount-sub {
+    color: #e53935;
+}
+
+.amount-badge.negative+.amount-sub {
+    color: #1e88e5;
+}
+
+/* Volume Cell - Neutral Purple/Gray */
+.volume-cell {
+    text-align: center;
+}
+
+.volume-value {
+    font-weight: bold;
+    font-size: 10pt;
+    color: #f57c00;
+    background: linear-gradient(135deg, #ffedd6 0%, #ffd8a4 100%);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.cross-trade-indicator {
+    font-size: 8pt;
+    color: #ffa000;
+    margin-top: 4px;
+    font-weight: 600;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ========== NEW: Buy/Sell Amount Cell (Subtle Design) ========== */
+.buy-cell,
+.sell-cell {
+    text-align: center;
+    padding: 12px 8px !important;
+}
+
+.amount-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+.amount-tag.buy {
+    color: #e53935;
+    background-color: #ffe3e8;
+}
+
+.amount-tag.sell {
+    color: #1e88e5;
+    background-color: #d7ecff;
+}
+
+/* ========== NEW: Net Flow Cell (Subtle Design) ========== */
+.netflow-cell {
+    text-align: center;
+}
+
+.netflow-tag {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 9pt;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.netflow-tag.positive {
+    background: #def3e2;
+    color: #2f8f46;
+}
+
+.netflow-tag.negative {
+    background: #f9d9e7;
+    color: #d81b60;
+}
+
+.netflow-tag.neutral {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* Conviction Badge (Enhanced) */
+.conv-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+.conv-badge.major {
+    background: linear-gradient(135deg, #ffe3e8 0%, #ffbdcb 100%);
+    color: #d32f2f;
+    border: 1px solid #ef7f9f;
+}
+
+.conv-badge.moderate {
+    background: linear-gradient(135deg, #fff2cc 0%, #ffe199 100%);
+    color: #fb8c00;
+    border: 1px solid #ffb74d;
+}
+
+.conv-badge.minor {
+    background: linear-gradient(135deg, #def3e2 0%, #bfe9c7 100%);
+    color: #2f8f46;
+    border: 1px solid #8ed19f;
+}
+
+/* Legend - Enhanced */
+.heatmap-legend {
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+    margin-top: 15px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #eceff1 100%);
+    border-radius: 8px;
+    font-size: 9pt;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    flex-wrap: nowrap;
+    /* 한 줄 유지 */
+    white-space: nowrap;
+    /* 텍스트 줄바꿈 방지 */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-color.heat-positive-sample {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border: 1px solid #ef9a9a;
+}
+
+.legend-color.heat-negative-sample {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 1px solid #90caf9;
+}
+
+.legend-color.heat-volume-sample {
+    background: linear-gradient(135deg, #ede7f6 0%, #e8eaf6 100%);
+    border: 1px solid #b39ddb;
+}
+
+/* ========== Table Palette Alignment (Appendix Baseline) ========== */
+table,
+.movers-table,
+.detail-table,
+.heatmap-table {
+    background: #ffffff;
+    border-color: #e6e6e6;
+}
+
+table thead,
+.movers-table thead,
+.detail-table thead,
+.heatmap-table thead {
+    background: #f5f5f5;
+}
+
+table th,
+.movers-table th,
+.detail-table th,
+.heatmap-table th {
+    background: #f5f5f5;
+    color: #666;
+    border-top: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
+}
+
+table td,
+.movers-table td,
+.detail-table td,
+.heatmap-table td {
+    background: #ffffff;
+    color: #111111;
+    border-bottom: 1px solid #eee;
+}
+
+table tbody tr:nth-child(even),
+.movers-table tbody tr:nth-child(even),
+.detail-table tbody tr:nth-child(even),
+.heatmap-table tbody tr:nth-child(even) {
+    background: #fcfcfc;
+}
+
+table tbody tr:hover,
+.movers-table tbody tr:hover,
+.detail-table tbody tr:hover,
+.heatmap-table tbody tr:hover {
+    background: #f9f9f9 !important;
+}
+
+/* td에 배경이 지정된 경우에도 hover가 실제로 보이도록 셀 단위로 강제 적용 */
+table tbody tr:nth-child(even) > td,
+.movers-table tbody tr:nth-child(even) > td,
+.detail-table tbody tr:nth-child(even) > td,
+.heatmap-table tbody tr:nth-child(even) > td {
+    background: #fcfcfc;
+}
+
+table tbody tr:hover > td,
+.movers-table tbody tr:hover > td,
+.detail-table tbody tr:hover > td,
+.heatmap-table tbody tr:hover > td {
+    background: #f9f9f9 !important;
+}
+
+        body { background-color: #f0f2f6; padding: 20px; }
+        .page-container { 
+            background-color: white; 
+            width: 1200px; 
+            min-height: 849px; 
+            margin: 0 auto; 
+            padding: 15mm; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ETF Market Report</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <h1>ETF Market Report</h1>
+            <p class="subtitle">Group: 국내지수</p>
+            
+            <div class="etf-list-wrapper">
+                <span class="etf-list-icon">📋</span>
+                <div class="etf-list-items">
+                    
+                    <span class="etf-chip">KoAct K수출핵심기업TOP30액티브</span>, 
+                    
+                    <span class="etf-chip">RISE 코리아전략산업액티브</span>, 
+                    
+                    <span class="etf-chip">TIME 코스닥액티브</span>, 
+                    
+                    <span class="etf-chip">KoAct 코스닥액티브</span>, 
+                    
+                    <span class="etf-chip">TIME 코스피액티브</span>, 
+                    
+                    <span class="etf-chip">TIME Korea플러스배당액티브</span>, 
+                    
+                    <span class="etf-chip">KoAct 배당성장액티브</span>, 
+                    
+                    <span class="etf-chip">TIME 코리아밸류업액티브</span>, 
+                    
+                    <span class="etf-chip">KoAct 코리아밸류업액티브</span>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="header-right">
+            <div class="date-block">
+                <span class="date-label">Period</span>
+                <span class="date-value">2026-03-13 ~ 2026-03-16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Summary 섹션 삭제됨 -->
+
+    <!-- ========== NEW: Market Heatmap (KOSPI/KOSDAQ/해외) ========== -->
+    
+
+    <!-- ========== REDESIGNED: Sector Heatmap (Separate Buy/Sell Columns) ========== -->
+    
+    
+
+
+    <!-- ========== NEW: Consensus Stocks ========== -->
+    
+
+    <!-- ========== ENHANCED: Top Movers (Grouped) ========== -->
+    
+
+    <!-- ========== High Conviction Trades ========== -->
+    
+
+    <!-- ========== MODIFIED: Highlights (Simplified) ========== -->
+    <div class="section">
+        <h2>🔥 Market Highlights</h2>
+
+        
+
+        
+
+        
+
+        
+    </div>
+
+    
+
+    <style>
+        {
+                {
+                css_content
+            }
+        }
+    </style>
+    <!-- ========== MODIFIED: Summary Table (Top 30 only) ========== -->
+    <div class="section new-page">
+        <h2>📋 Market Summary (Top 30)</h2>
+        
+        <p class="no-data">No significant changes detected.</p>
+        
+    </div>
+
+
+
+    <!-- ========== ETF별 비중변화 상세 리포트 (별첨) ========== -->
+    
+
+</body>
+
+</html>
+    </div>
+</body>
+</html>
