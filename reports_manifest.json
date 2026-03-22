@@ -1,5 +1,47 @@
 [
   {
+    "date": "2026-03-19",
+    "variant": "KOACT",
+    "file_name": "Report_20260319_KOACT.html",
+    "url": "reports/2026/03/19/Report_20260319_KOACT.html",
+    "updated_at": "2026-03-23T08:09:30"
+  },
+  {
+    "date": "2026-03-19",
+    "variant": "TIMEFOLIO",
+    "file_name": "Report_20260319_TIMEFOLIO.html",
+    "url": "reports/2026/03/19/Report_20260319_TIMEFOLIO.html",
+    "updated_at": "2026-03-23T08:09:30"
+  },
+  {
+    "date": "2026-03-19",
+    "variant": "국내섹터",
+    "file_name": "Report_20260319_국내섹터.html",
+    "url": "reports/2026/03/19/Report_20260319_국내섹터.html",
+    "updated_at": "2026-03-23T08:09:30"
+  },
+  {
+    "date": "2026-03-19",
+    "variant": "국내지수",
+    "file_name": "Report_20260319_국내지수.html",
+    "url": "reports/2026/03/19/Report_20260319_국내지수.html",
+    "updated_at": "2026-03-23T08:09:30"
+  },
+  {
+    "date": "2026-03-19",
+    "variant": "해외섹터",
+    "file_name": "Report_20260319_해외섹터.html",
+    "url": "reports/2026/03/19/Report_20260319_해외섹터.html",
+    "updated_at": "2026-03-23T08:09:30"
+  },
+  {
+    "date": "2026-03-19",
+    "variant": "해외지수",
+    "file_name": "Report_20260319_해외지수.html",
+    "url": "reports/2026/03/19/Report_20260319_해외지수.html",
+    "updated_at": "2026-03-23T08:09:30"
+  },
+  {
     "date": "2026-03-18",
     "variant": "KOACT",
     "file_name": "Report_20260318_KOACT.html",
